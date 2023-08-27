@@ -10,19 +10,20 @@ import {
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
-    const [nombre, setNombre] = useState("");
-    const [rif, setRif] = useState("");
-    const [correo1, setCorreo1] = useState("");
-    const [correo2, setCorreo2] = useState("");
-    const [telefonoPrefix1, setTelefonoPrefix1] = useState("");
-    const [telefonoPrefix2, setTelefonoPrefix2] = useState("");
-    const [telefono1, setTelefono1] = useState("");
-    const [telefono2, setTelefono2] = useState("");
-    const [selectedCountry, setSelectedCountry] = useState("");
-    const [selectedState, setSelectedState] = useState("");
-    const [direccion, setDireccion] = useState("");
+const Formulario1 = ({ empresa, states, countries, datosEmpresa, procesarFormulario, }) => {
+    const [nombre, setNombre] = useState(empresa.nombre || "Ej: Mi Empresa S.A.");
+    const [rif, setRif] = useState(empresa.rif || "Ej: J-123456789");
+    const [correo1, setCorreo1] = useState(empresa.correo1 || "Ej: user@example.com");
+    const [correo2, setCorreo2] = useState(empresa.correo2 || "Ej: user2@example.com");
+    const [prefix1, setPrefix1] = useState(empresa.prefix1 || "");
+    const [prefix2, setPrefix2] = useState(empresa.prefix2 || "");
+    const [telefono1, setTelefono1] = useState(empresa.telefono1 || "Numero de telefono");
+    const [telefono2, setTelefono2] = useState(empresa.telefono2 || "Numero de telefono");
+    const [selectedCountry, setSelectedCountry] = useState(empresa.pais || "Selecciona un pais");
+    const [selectedState, setSelectedState] = useState(empresa.estado || "Selecciona un estado");
+    const [direccion, setDireccion] = useState(empresa.direccion || "Ej: Calle 123, Ciudad");
     const [errors, setErrors] = useState({});
+    
 
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
@@ -38,7 +39,9 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
             !nombre ||
             !rif ||
             !correo1 ||
+            !prefix1 ||
             !telefono1 ||
+            !prefix2 ||
             !telefono2 ||
             !selectedCountry ||
             !selectedState ||
@@ -48,13 +51,14 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
             setErrors(newErrors);
             return;
         }
+        
 
-        if (!/^([A-Z][a-z]*)+$/.test(nombre)) {
-            newErrors.nombre = "La inicial del nombre debe ir en mayuscula";
+        if (!nombre || (!/[A-Za-z]/.test(nombre))) {
+            newErrors.nombre = "Por favor, ingrese el nombre de la empresa";
             setErrors(newErrors);
-
-            return;
+            return false;
         }
+        
 
         if (!/^J-\d{10}$/.test(rif)) {
             newErrors.rif =
@@ -110,10 +114,21 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
 
         return true;
     };
-
+    const handleChange=()=>{
+        setNombre(nombre
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
+            .trim()
+            )
+        setRif(rif.charAt(0).toUpperCase() + rif.slice(1))
+        validateForm()
+       
+    }
     const handleSubmit = async (e) => {
         setErrors({});
         e.preventDefault();
+        handleChange();
 
         if (!validateForm()) {
             return;
@@ -124,8 +139,10 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
             rif: rif,
             correo1: correo1,
             correo2: correo2,
-            telefono1: JSON.stringify(telefonoPrefix1, "-", telefono1),
-            telefono2: JSON.stringify(telefonoPrefix2, "-", telefono2),
+            prefix1: prefix1,
+            telefono1: telefono1,
+            prefix2: prefix2,
+            telefono2:  telefono2,
             pais: selectedCountry,
             estado: selectedState,
             direccion: direccion,
@@ -144,7 +161,7 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
             console.error("Error de red:", error);
         }
 
-        procesarFormulario(formData);
+        
     };
 
     const filteredStates = states.filter(
@@ -183,11 +200,7 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 <div className="input-group">
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder={
-                                                            empresa == {}
-                                                                ? "Ej: Mi Empresa S.A."
-                                                                : empresa.nombre
-                                                        }
+                                                        
                                                         name="nombre"
                                                         value={nombre}
                                                         onChange={(e) =>
@@ -211,13 +224,9 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 <div className="input-group">
                                                     <Form.Control
                                                         type="text"
-                                                        placeholder={
-                                                            empresa == {}
-                                                                ? "Ej: J-123456789"
-                                                                : empresa.rif
-                                                        }
                                                         name="rif"
                                                         value={rif}
+                                                        // defaultValue= {empresa=={} ? "Ej: J-123456789": empresa.rif}
                                                         onChange={(e) =>
                                                             setRif(
                                                                 e.target.value
@@ -243,13 +252,9 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 <div className="input-group">
                                                     <Form.Control
                                                         type="email"
-                                                        placeholder={
-                                                            empresa == {}
-                                                                ? "Ej: user@example.com"
-                                                                : empresa.correo1
-                                                        }
-                                                        name="correo1"
                                                         value={correo1}
+                                                        name="correo1"
+                                                        
                                                         onChange={(e) =>
                                                             setCorreo1(
                                                                 e.target.value
@@ -273,11 +278,6 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 <div className="input-group">
                                                     <Form.Control
                                                         type="email"
-                                                        placeholder={
-                                                            empresa == {}
-                                                                ? "Ej: user@example.com"
-                                                                : empresa.correo2
-                                                        }
                                                         name="correo2"
                                                         value={correo2}
                                                         onChange={(e) =>
@@ -304,46 +304,25 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 </Form.Label>
                                                 <div className="input-group flex">
                                                     <div class="w-1/6 mr-2">
-                                                        <select
-                                                            className="form-select me-2"
-                                                            value={
-                                                                telefonoPrefix1
-                                                            }
-                                                            onChange={(e) =>
-                                                                setTelefonoPrefix1(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        >
-                                                            <option value="">
-                                                                #
-                                                            </option>
-                                                            <option value="0412">
-                                                                0412
-                                                            </option>
-                                                            <option value="0424">
-                                                                0424
-                                                            </option>
-                                                            <option value="0416">
-                                                                0416
-                                                            </option>
-                                                        </select>
+                                                    <select
+                                                        className="form-select me-2"
+                                                        value={prefix1}
+                                                        onChange={(e) => setPrefix1(e.target.value)}
+                                                    >
+                                                        <option value="">#</option>
+                                                        <option value="0412">0412</option>
+                                                        <option value="0424">0424</option>
+                                                        <option value="0416">0416</option>
+                                                    </select>
+
                                                     </div>
                                                     <div class="flex justify-between w-4/6">
                                                         <Form.Control
                                                             type="tel"
-                                                            placeholder={
-                                                                empresa === null
-                                                                    ? "Número de teléfono"
-                                                                    : empresa.telefono1.slice(
-                                                                          3,
-                                                                          10
-                                                                      )
-                                                            }
+                                                            value={telefono1}
                                                             className="flex-grow-1"
                                                             name="telefono1"
-                                                            value={telefono1}
+                                            
                                                             onChange={(e) =>
                                                                 setTelefono1(
                                                                     e.target
@@ -371,46 +350,25 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 </Form.Label>
                                                 <div className="input-group flex">
                                                     <div class="w-1/6 mr-2">
-                                                        <select
-                                                            className="form-select me-2"
-                                                            value={
-                                                                telefonoPrefix2
-                                                            }
-                                                            onChange={(e) =>
-                                                                setTelefonoPrefix2(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        >
-                                                            <option value="">
-                                                                #
-                                                            </option>
-                                                            <option value="0412">
-                                                                0412
-                                                            </option>
-                                                            <option value="0424">
-                                                                0424
-                                                            </option>
-                                                            <option value="0416">
-                                                                0416
-                                                            </option>
-                                                        </select>
+                                                    <select
+                                                        className="form-select me-2"
+                                                        value={prefix2}
+                                                        onChange={(e) => setPrefix2(e.target.value)}
+                                                    >
+                                                        <option value="">#</option>
+                                                        <option value="0412">0412</option>
+                                                        <option value="0424">0424</option>
+                                                        <option value="0416">0416</option>
+                                                    </select>
+
                                                     </div>
                                                     <div class="flex justify-between w-4/6">
                                                         <Form.Control
                                                             type="tel"
-                                                            placeholder={
-                                                                empresa === null
-                                                                    ? "Número de teléfono"
-                                                                    : empresa.telefono2.slice(
-                                                                          3,
-                                                                          10
-                                                                      )
-                                                            }
+                                                            value={telefono2}
                                                             className="flex-grow-1"
                                                             name="telefono1"
-                                                            value={telefono2}
+                                                            
                                                             onChange={(e) =>
                                                                 setTelefono2(
                                                                     e.target
@@ -478,6 +436,7 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                         Estado
                                                     </Form.Label>
                                                     <Form.Select
+                                                        value={selectedState}
                                                         onChange={
                                                             handleStateChange
                                                         }
@@ -511,13 +470,9 @@ const Formulario1 = ({ states, countries, empresa, procesarFormulario }) => {
                                                 <Form.Control
                                                     as="textarea"
                                                     rows={3}
-                                                    placeholder={
-                                                        empresa == {}
-                                                            ? "Ej: Calle 123, Ciudad"
-                                                            : empresa.direccion
-                                                    }
-                                                    name="direccion"
                                                     value={direccion}
+                                                    name={direccion}
+                                                    
                                                     onChange={(e) =>
                                                         setDireccion(
                                                             e.target.value

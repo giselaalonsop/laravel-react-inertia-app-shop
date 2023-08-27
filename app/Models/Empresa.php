@@ -14,11 +14,14 @@ class Empresa extends Model
         'rif',
         'correo1',
         'correo2',
+        'prefix1',
         'telefono1',
+        'prefix2',
         'telefono2',
         'pais',
         'estado',
         'direccion',
+        'logo',
         // Agrega más propiedades según las columnas que tengas
     ];
 }

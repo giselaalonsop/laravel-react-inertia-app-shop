@@ -11,18 +11,19 @@ import AutocompleteInput from "./AutoCompleteInput";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-const Wizard = ({states, countries, procesarFormulario,empresa}) => {
-    const [nombre, setNombre] = useState("");
-  const [rif, setRif] = useState("");
-  const [correo1, setCorreo1] = useState("");
-  const [correo2, setCorreo2] = useState("");
-  const [telefonoPrefix1, setTelefonoPrefix1] = useState("");
-  const [telefonoPrefix2, setTelefonoPrefix2] = useState("");
-  const [telefono1, setTelefono1] = useState("");
-  const [telefono2, setTelefono2] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [selectedState, setSelectedState] = useState(null);
+const Wizard = ({empresa,states, countries, procesarFormulario,datosEmpresa}) => {
+  const [nombre, setNombre] = useState(empresa.nombre || "Ej: Mi Empresa S.A.");
+  const [rif, setRif] = useState(empresa.rif || "Ej: J-123456789");
+  const [correo1, setCorreo1] = useState(empresa.correo1 || "Ej: user@example.com");
+  const [correo2, setCorreo2] = useState(empresa.correo2 || "Ej: user2@example.com");
+  const [prefix1, setPrefix1] = useState(empresa.prefix1 || "");
+  const [prefix2, setPrefix2] = useState(empresa.prefix2 || "");
+  const [telefono1, setTelefono1] = useState(empresa.telefono1 || "Numero de telefono");
+  const [telefono2, setTelefono2] = useState(empresa.telefono2 || "Numero de telefono");
+  const [selectedCountry, setSelectedCountry] = useState(empresa.pais || "Selecciona un pais");
+  const [selectedState, setSelectedState] = useState(empresa.estado|| "Selecciona un estado");
+  const [direccion, setDireccion] = useState(empresa.direccion || "Ej: Calle 123, Ciudad");
+  
   const [errors, setErrors] = useState({});
 
 
@@ -52,11 +53,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
   const handleStateChange = (event) => {
     setSelectedState(event.target.value);
   };
-  useEffect(() => {
-    
-      nombreInputRef.current.focus() // Enfocar el campo al cargar el componente
-
-  }, []);
+ 
   
 
   const validateForm = () => {
@@ -86,15 +83,17 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
 
 
     const formData = {
-      nombre:nombre,
-      rif:rif,
-      correo1:correo1,
-      correo2:correo2,
-      telefono1: JSON.stringify(telefonoPrefix1, "-",  telefono1),
-      telefono2: JSON.stringify(telefonoPrefix2, "-" ,telefono2),
-      pais: selectedCountry,
-      estado: selectedState,
-      direccion:direccion
+      nombre: nombre,
+            rif: rif,
+            correo1: correo1,
+            correo2: correo2,
+            prefix1: prefix1,
+            telefono1: telefono1,
+            prefix2: prefix2,
+            telefono2:  telefono2,
+            pais: selectedCountry,
+            estado: selectedState,
+            direccion: direccion,
     };
     try {
       const response = await axios.post('/dashboard', formData);
@@ -167,11 +166,14 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
           return;
         }
     setStep(step + 1);
+    direccionInputRef.current.focus()
   };
 
   const handlePrev = () => {
     setErrors({})
     setStep(step - 1);
+    nombreInputRef.current.focus();
+
   };
 
   const renderStep = () => {
@@ -189,7 +191,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                         <div className="input-group">
                           <Form.Control
                             type="text"
-                            placeholder={empresa == {} ? "Ej: Mi Empresa S.A." : empresa.nombre}
+                            
                             name="nombre"
                             value={nombre}
                             onChange={(e)=> setNombre(e.target.value)}
@@ -214,7 +216,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                         <div className="input-group">
                           <Form.Control
                             type="text"
-                            placeholder={empresa == {} ? "Ej: J-123456789" : empresa.rif}
+                            // placeholder={empresa == {} ? "Ej: J-123456789" : empresa.rif}
                             name="rif"
                             value={rif}
                             onChange={(e) => setRif(e.target.value)}
@@ -241,7 +243,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                         <div className="input-group">
                           <Form.Control
                             type="email"
-                            placeholder={empresa == {} ? "Ej: user@example.com" : empresa.correo1}
+                            // placeholder={empresa == {} ? "Ej: user@example.com" : empresa.correo1}
                             name="correo1"
                             value={correo1}
                             onChange={(e)=> setCorreo1(e.target.value)}
@@ -267,7 +269,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                         <div className="input-group">
                           <Form.Control
                             type="email"
-                            placeholder={empresa == {} ? "Ej: user@example.com" : empresa.correo2}
+                            // placeholder={empresa == {} ? "Ej: user@example.com" : empresa.correo2}
                             name="correo2"
                             value={correo2}
                             onChange={(e)=> setCorreo2(e.target.value)}
@@ -293,19 +295,22 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                     <Col>
                         <Form.Label>Teléfono 1</Form.Label>
                         <div className="input-group"
-                        value={telefonoPrefix1}
-                        onChange={(e) => setTelefonoPrefix1(e.target.value)}
+                        
+                        onChange={(e) => setPrefix1(e.target.value)}
                         ref={telefonoSelectRef}>
-                            <select className="form-select me-2">
-                            <option value="">#</option>
-                            
-                            <option value="0412">0412</option>
-                            <option value="0424">0424</option>
-                            <option value="0416">0416</option>
-                            </select>
+                            <select
+                                                        className="form-select me-2"
+                                                        value={prefix1}
+                                                        onChange={(e) => setPrefix1(e.target.value)}
+                                                    >
+                                                        <option value="">#</option>
+                                                        <option value="0412">0412</option>
+                                                        <option value="0424">0424</option>
+                                                        <option value="0416">0416</option>
+                                                    </select>
                             <Form.Control
                             type="tel"
-                            placeholder={empresa == {} ? "Número de teléfono" : empresa.telefono1.slice(3,10)}
+                            // placeholder={empresa == {} ? "Número de teléfono" : empresa.telefono1.slice(3,10)}
                             className="flex-grow-1"
                             name="telefono1"
                             value={telefono1}
@@ -331,8 +336,8 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                         <Form.Label>Teléfono 2</Form.Label>
                         <div className="input-group">
                             <select className="form-select me-2"
-                            value={telefonoPrefix2}
-                            onChange={(e) => setTelefonoPrefix2(e.target.value)}>
+                            value={prefix2}
+                            onChange={(e) => setPrefix2(e.target.value)}>
                             <option value="">#</option>
                             <option value="0412">0412</option>
                             <option value="0424">0424</option>
@@ -340,7 +345,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                             </select>
                             <Form.Control
                             type="tel"
-                            placeholder={empresa == {} ? "Número de teléfono" :empresa.telefono2.slice(3,10)}
+                            // placeholder={empresa == {} ? "Número de teléfono" :empresa.telefono2.slice(3,10)}
                             className="flex-grow-1"
                             name="telefono2"
                             value={telefono2}
@@ -349,7 +354,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                               if (e.key === 'Enter') {
                                 e.preventDefault();
                                 botonNextRef.current.click();
-                                direccionInputRef.current.focus();
+                                
                               }
                             }}
                             ref={telefono2InputRef}
@@ -372,28 +377,16 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
             
         );
       case 2:
+        
         return (
           <div>
             
             <Form onSubmit={handleSubmit}>
                 <div className="d-flex  justify-center">
                 <Row className="mb-3">
-                        {/* <Col>
-                            <Form.Label></Form.Label>
-                            <Form.Select>
-                            <option>Seleccione un país</option>
-                            
-                            </Form.Select>
-                        </Col>
-                        <Col>
-                            <Form.Label></Form.Label>
-                            <Form.Select>
-                            <option>Seleccione un estado</option>
-                            
-                            </Form.Select>
-                        </Col> */}
+                        
                         <AutocompleteInput states={states} countries={countries} setSelectedCountry={setSelectedCountry}
-                        setSelectedState={setSelectedState} />
+                        setSelectedState={setSelectedState} empresa={empresa} ref={estadoInputRef} direccionInputRef={direccionInputRef}/>
                         
 
 
@@ -405,7 +398,7 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
                                 <Form.Control
                                 as="textarea"
                                 rows={3}
-                                placeholder="Ej: Calle 123, Ciudad"
+                                value={direccion}
                                 onChange={(e)=> setDireccion(e.target.value)}
                                 onKeyDown={(e) => {
                                   if (e.key === 'Enter') {
@@ -430,7 +423,14 @@ const Wizard = ({states, countries, procesarFormulario,empresa}) => {
         return null;
     }
   };
-
+  useEffect(() => {
+    if (step === 1) {
+      nombreInputRef.current.focus();
+    } else if (step === 2) {
+      estadoInputRef.current.focus();
+    }
+  }, [step]);
+  
   return (
     <div className="content-wrapper">
       <div className="bg-light" style={{ minHeight: "100vh" }}>

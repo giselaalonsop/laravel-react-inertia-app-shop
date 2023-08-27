@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,forwardRef } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { Form, Col } from 'react-bootstrap';
 
-// Datos de ejemplo: países y estados
 
-const AutocompleteInput = ({states,countries,setSelectedCountry,
-    setSelectedState}) => {
-  const [value, setValue] = useState('');
+
+const AutocompleteInput = forwardRef((props, ref) => { // Use forwardRef
+  const {
+    states,
+    countries,
+    setSelectedCountry,
+    setSelectedState,
+    empresa,direccionInputRef
+  } = props;
+      
+  const [value, setValue] = useState(empresa.estado + "-" + empresa.pais ||"" );
   const [suggestions, setSuggestions] = useState([]);
-
+ 
   const getSuggestions = (inputValue) => {
     const inputValueLower = inputValue.toLowerCase();
     return states.filter(
@@ -31,6 +38,12 @@ const AutocompleteInput = ({states,countries,setSelectedCountry,
     
     setValue(suggestionValue);
   };
+  const onStateKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      direccionInputRef.current.focus();
+    }
+  };
 
   const getSuggestionValue = (suggestion) => suggestion.name;
 
@@ -45,7 +58,8 @@ const AutocompleteInput = ({states,countries,setSelectedCountry,
     placeholder: 'Ingrese un estado',
     value,
     onChange: (_, { newValue }) => setValue(newValue),
-
+    onKeyDown: onStateKeyDown,
+    ref:ref
   };
   
   
@@ -63,9 +77,12 @@ const AutocompleteInput = ({states,countries,setSelectedCountry,
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
         
+        
+        
+        
       />
     </Col>
   );
-};
+});
 
 export default AutocompleteInput;

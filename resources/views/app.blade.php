@@ -38,10 +38,6 @@
 
 
     <!-- Scripts -->
-    @routes
-    @viteReactRefresh
-    @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-    @inertiaHead
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -79,6 +75,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
+    @routes
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+    @inertiaHead
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

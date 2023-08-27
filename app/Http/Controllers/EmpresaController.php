@@ -8,6 +8,12 @@ use Inertia;
 
 class EmpresaController extends Controller
 {
+
+    public function index()
+    {
+        $empresa = Empresa::first(); // Recupera todos los registros de la tabla "empresas"
+        return inertia('Welcome', ['empresa' => $empresa]);
+    }
     public function store(Request $request)
     {
         try {
@@ -21,7 +27,9 @@ class EmpresaController extends Controller
                     'rif' => $request->rif,
                     'correo1' => $request->correo1,
                     'correo2' => $request->correo2,
+                    'prefix1' => $request->prefix1,
                     'telefono1' => $request->telefono1,
+                    'prefix2' => $request->prefix2,
                     'telefono2' => $request->telefono2,
                     'pais' => $request->pais,
                     'estado' => $request->estado,
@@ -34,7 +42,9 @@ class EmpresaController extends Controller
                     'rif' => $request->rif,
                     'correo1' => $request->correo1,
                     'correo2' => $request->correo2,
+                    'prefix1' => $request->prefix1,
                     'telefono1' => $request->telefono1,
+                    'prefix2' => $request->prefix2,
                     'telefono2' => $request->telefono2,
                     'pais' => $request->pais,
                     'estado' => $request->estado,
@@ -48,6 +58,21 @@ class EmpresaController extends Controller
             return response()->json(['error' => 'Error al crear la empresa'], 500);
         }
     }
+    public function updateLogo(Request $request)
+    {
+        $empresa = Empresa::first();
+
+        if ($request->hasFile('logo')) {
+            // Procesar y guardar el nuevo logo aquí
+            // Puedes utilizar Storage de Laravel para almacenar el archivo
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $empresa->logo = $logoPath;
+            $empresa->save();
+        }
+
+        return response()->json(['message' => 'Logo guardado exitosamente'], 201);
+    }
+
 
     public function rules()
     {

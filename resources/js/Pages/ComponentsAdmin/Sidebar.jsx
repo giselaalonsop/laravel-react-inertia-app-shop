@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const Sidebar = ({auth,cambiarHome, empresa}) => {
+const Sidebar = ({auth,cambiarHome, datosEmpresa, empresa}) => {
   
   return (
     <div >
@@ -10,7 +10,7 @@ const Sidebar = ({auth,cambiarHome, empresa}) => {
   {/* Brand Logo */}
   <a href="/" className="brand-link">
     <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
-    <span className="brand-text font-weight-light">{empresa.nombre}</span>
+    <span className="brand-text font-weight-light"></span>
   </a>
   {/* Sidebar */}
   <div className="sidebar">
@@ -75,6 +75,14 @@ const Sidebar = ({auth,cambiarHome, empresa}) => {
               <i className="nav-icon fas fa-bolt" />
               <p>
               Formulario Wizard
+              </p>
+          </a>
+      </li>
+      <li onClick={()=>cambiarHome("tools")} className="nav-item">
+          <a href="#" className="nav-link">
+              <i className="nav-icon fas fa-bolt" />
+              <p>
+              Configuraciones
               </p>
           </a>
       </li>

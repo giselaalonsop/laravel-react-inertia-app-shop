@@ -6,25 +6,30 @@ import Home from './ComponentsAdmin/Home';
 import Formulario1 from "./ComponentsAdmin/formulario1";
 import Wizard from "./ComponentsAdmin/Wizard";
 import Item from './ComponentsAdmin/Item';
+import ConfiguracionForm from "./ComponentsAdmin/ConfiguracionForm";
 
 
-export default function Admin({auth, cambiarHome, home, states, countries, empresa,procesarFormulario}) { // Asegúrate de recibir 'auth' como prop
+export default function Admin({empresa, auth, cambiarHome, home, states, countries, datosEmpresa,procesarFormulario}) { 
     return(
         <>
             <div className="wrapper" style={{ backgroundColor: "#eee" }}>
-                <Header auth={auth}/>
+                <Header auth={auth } empresa={empresa}/>
                 
                    {(() => {
                     switch (home) {
                       case 'general':
                         return <div>
-                            <Formulario1 states={states} countries={countries} empresa={empresa} procesarFormulario={procesarFormulario}/>                        
+                            <Formulario1  empresa={empresa} states={states} countries={countries} datosEmpresa={datosEmpresa} procesarFormulario={procesarFormulario}/>                        
                             </div>;
                       case 'wizard':
                         return <div>
-                          <Wizard states={states} countries={countries} empresa={empresa} procesarFormulario={procesarFormulario}/></div>;
+                          <Wizard empresa={empresa} states={states} countries={countries} datosEmpresa={datosEmpresa} procesarFormulario={procesarFormulario}/></div>;
                       case 'datos':
-                        return <div><Item empresa={empresa}/></div>;
+                        return <div><Item  empresa={empresa}/></div>;
+                      case 'tools':
+                        return <div>
+                        <ConfiguracionForm empresa={empresa}/>
+                        </div>
                       default:
                         return <div> 
                             <Home/>                        
@@ -32,8 +37,8 @@ export default function Admin({auth, cambiarHome, home, states, countries, empre
                     }
                   })()}
                 
-                <Sidebar auth={auth} cambiarHome={cambiarHome} empresa={empresa}/>
-                <Footer/>
+                <Sidebar auth={auth} cambiarHome={cambiarHome} datosEmpresa={datosEmpresa} empresa={empresa}/>
+                <Footer empresa={empresa}/>
             </div>
             
         </>

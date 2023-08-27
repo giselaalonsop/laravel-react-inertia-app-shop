@@ -17,11 +17,14 @@ return new class extends Migration
             $table->string('rif')->unique();
             $table->string('correo1');
             $table->string('correo2');
+            $table->string('prefix1');
             $table->string('telefono1');
+            $table->string('prefix2');
             $table->string('telefono2');
             $table->string('pais');
             $table->string('estado');
             $table->string('direccion');
+            $table->string('logo')->nullable();
             // Agrega más columnas según tus necesidades
             $table->timestamps();
         });

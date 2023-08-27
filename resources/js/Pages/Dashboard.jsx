@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import Admin from './Admin';
 import Header from './ComponentsAdmin/Header';
+import { usePage } from '@inertiajs/inertia-react';
 
 
 const countries = [
@@ -94,15 +95,14 @@ const countries = [
     { name: 'Guantánamo', country: 'Cuba' },
   ];
 
-const datosEmpresa=JSON.parse(localStorage.getItem("empresa")) || []
 
 
-export default function Dashboard({ auth }) {
-    const [empresa, setEmpresa]=useState(datosEmpresa);
-    useEffect(() => localStorage.setItem("empresa", JSON.stringify(empresa)),[empresa]);
+export default function Dashboard({ auth, empresa }) {
+    const [datosEmpresa, setDatosEmpresa]=useState();
+    // useEffect(() => localStorage.setItem("empresa", JSON.stringify(empresa)),[empresa]);
     const procesarFormulario = (nuevosDatos) => {
 
-        setEmpresa(nuevosDatos);
+        setDatosEmpresa(nuevosDatos);
       };
       
     const [home, setHome]=useState("none")
@@ -117,7 +117,7 @@ export default function Dashboard({ auth }) {
             <Head title="Dashboard" />
             {auth.user.role === 'admin' ? (
                 <>
-                    <Admin auth={auth} cambiarHome={cambiarHome} home={home} states={states} countries={countries} empresa={empresa} procesarFormulario={procesarFormulario} />
+                    <Admin empresa={empresa} auth={auth} cambiarHome={cambiarHome} home={home} states={states} countries={countries} datosEmpresa={datosEmpresa} procesarFormulario={procesarFormulario} />
                     
                 </>
                 

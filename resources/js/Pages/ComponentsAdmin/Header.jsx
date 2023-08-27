@@ -3,7 +3,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink'
 
 
 
-const Header = ({auth, children }) => {
+const Header = ({auth, children,empresa }) => {
   return (
     <div>
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
