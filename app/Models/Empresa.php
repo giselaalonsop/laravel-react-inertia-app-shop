@@ -21,7 +21,7 @@ class Empresa extends Model
         'pais',
         'estado',
         'direccion',
-        'logo',
+
         // Agrega más propiedades según las columnas que tengas
     ];
 }

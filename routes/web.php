@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\ConfiguracionController;
+use App\Models\Empresa;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,11 +21,13 @@ use App\Http\Controllers\EmpresaController;
 
 
 Route::get('/', [EmpresaController::class, 'index']);
+// Route::get('/', [ConfiguracionController::class, 'index']);
+
 
 
 
 Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::post('/dashboard', [EmpresaController::class, 'updateLogo']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -31,6 +35,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/dashboard', [EmpresaController::class, 'store']);
+Route::post('/configuracion', [ConfiguracionController::class, 'store']);
+
 
 
 require __DIR__ . '/auth.php';

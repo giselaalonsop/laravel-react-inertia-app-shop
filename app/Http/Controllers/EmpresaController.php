@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresa;
+use App\Models\Configuracion;
 use Inertia;
 
 class EmpresaController extends Controller
 {
 
+
     public function index()
     {
-        $empresa = Empresa::first(); // Recupera todos los registros de la tabla "empresas"
-        return inertia('Welcome', ['empresa' => $empresa]);
+        $empresa = Empresa::first();
+        $configuracion = Configuracion::first();
+
+        return inertia('Welcome', ['configuracion' => $configuracion, 'empresa' => $empresa]);
     }
     public function store(Request $request)
     {
@@ -57,20 +61,6 @@ class EmpresaController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al crear la empresa'], 500);
         }
-    }
-    public function updateLogo(Request $request)
-    {
-        $empresa = Empresa::first();
-
-        if ($request->hasFile('logo')) {
-            // Procesar y guardar el nuevo logo aquí
-            // Puedes utilizar Storage de Laravel para almacenar el archivo
-            $logoPath = $request->file('logo')->store('logos', 'public');
-            $empresa->logo = $logoPath;
-            $empresa->save();
-        }
-
-        return response()->json(['message' => 'Logo guardado exitosamente'], 201);
     }
 
 

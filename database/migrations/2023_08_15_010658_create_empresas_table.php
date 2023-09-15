@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('pais');
             $table->string('estado');
             $table->string('direccion');
-            $table->string('logo')->nullable();
+
             // Agrega más columnas según tus necesidades
             $table->timestamps();
         });

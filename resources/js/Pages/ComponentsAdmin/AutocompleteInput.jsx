@@ -1,88 +1,83 @@
-import React, { useState,forwardRef } from 'react';
-import Autosuggest from 'react-autosuggest';
-import { Form, Col } from 'react-bootstrap';
+import React, { useState, forwardRef } from "react";
+import Autosuggest from "react-autosuggest";
+import { Form, Col } from "react-bootstrap";
 
+const AutocompleteInput = forwardRef((props, ref) => {
+    // Use forwardRef
+    const {
+        states,
+        countries,
+        setSelectedCountry,
+        setSelectedState,
+        empresa,
+        direccionInputRef,
+    } = props;
 
-
-const AutocompleteInput = forwardRef((props, ref) => { // Use forwardRef
-  const {
-    states,
-    countries,
-    setSelectedCountry,
-    setSelectedState,
-    empresa,direccionInputRef
-  } = props;
-      
-  const [value, setValue] = useState(empresa.estado + "-" + empresa.pais ||"" );
-  const [suggestions, setSuggestions] = useState([]);
- 
-  const getSuggestions = (inputValue) => {
-    const inputValueLower = inputValue.toLowerCase();
-    return states.filter(
-      (state) =>
-        state.name.toLowerCase().slice(0, inputValueLower.length) === inputValueLower
+    const [value, setValue] = useState(
+        empresa.estado + "-" + empresa.pais || ""
     );
-  };
+    const [suggestions, setSuggestions] = useState([]);
 
-  const onSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value));
-  };
+    const getSuggestions = (inputValue) => {
+        const inputValueLower = inputValue.toLowerCase();
+        return states.filter(
+            (state) =>
+                state.name.toLowerCase().slice(0, inputValueLower.length) ===
+                inputValueLower
+        );
+    };
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getSuggestions(value));
+    };
 
-  const onSuggestionSelected = (event, { suggestionValue,suggestion }) => {
-    setSelectedCountry(suggestion.country)
-    setSelectedState(suggestion.name)
-    
-    setValue(suggestionValue);
-  };
-  const onStateKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      direccionInputRef.current.focus();
-    }
-  };
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([]);
+    };
 
-  const getSuggestionValue = (suggestion) => suggestion.name;
+    const onSuggestionSelected = (event, { suggestionValue, suggestion }) => {
+        setSelectedCountry(suggestion.country);
+        setSelectedState(suggestion.name);
 
-  const renderSuggestion = (suggestion) => (
-    <div>
-      {suggestion.name} - {suggestion.country}
-    </div>
-  );
+        setValue(suggestionValue);
+    };
+    const onStateKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            direccionInputRef.current.focus();
+        }
+    };
 
-  const inputProps = {
-    
-    placeholder: 'Ingrese un estado',
-    value,
-    onChange: (_, { newValue }) => setValue(newValue),
-    onKeyDown: onStateKeyDown,
-    ref:ref
-  };
-  
-  
+    const getSuggestionValue = (suggestion) => suggestion.name;
 
-  return (
-    <Col>
-      <Form.Label>Estado</Form.Label>
-      <Autosuggest
+    const renderSuggestion = (suggestion) => (
+        <div>
+            {suggestion.name} - {suggestion.country}
+        </div>
+    );
 
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-        
-        
-        
-        
-      />
-    </Col>
-  );
+    const inputProps = {
+        placeholder: "Ingrese un estado",
+        value,
+        onChange: (_, { newValue }) => setValue(newValue),
+        onKeyDown: onStateKeyDown,
+        ref: ref,
+    };
+
+    return (
+        <Col>
+            <Form.Label>Estado</Form.Label>
+            <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                onSuggestionSelected={onSuggestionSelected}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                inputProps={inputProps}
+            />
+        </Col>
+    );
 });
 
 export default AutocompleteInput;
