@@ -86,39 +86,6 @@ const Sidebar = ({ auth, cambiarHome, empresa, configuraciones }) => {
                             role="menu"
                             data-accordion="false"
                         >
-                            {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
-
-                            <li
-                                onClick={() => cambiarHome("datos")}
-                                className="nav-item"
-                                onMouseEnter={(e) => {
-                                    e.target.style.color =
-                                        configuraciones.color2;
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.color = "black";
-                                }}
-                            >
-                                <div
-                                    onMouseEnter={(e) => {
-                                        e.target.style.color =
-                                            configuraciones.color2;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.color = "black";
-                                    }}
-                                >
-                                    <a
-                                        href="#"
-                                        className="nav-link bg-transparent"
-                                    >
-                                        <i className="nav-icon fas fa-list-ul" />
-                                        <p>Empresas</p>
-                                    </a>
-                                </div>
-                            </li>
-
                             <li
                                 className="nav-item  "
                                 onClick={() => cambiarHome("none")}
@@ -206,6 +173,28 @@ const Sidebar = ({ auth, cambiarHome, empresa, configuraciones }) => {
                                     >
                                         <i className="nav-icon fas fa-tools" />
                                         <p>Configuraciones</p>
+                                    </a>
+                                </div>
+                            </li>
+                            <li
+                                onClick={() => cambiarHome("redes")}
+                                className="nav-item"
+                            >
+                                <div
+                                    onMouseEnter={(e) => {
+                                        e.target.style.color =
+                                            configuraciones.color2;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.color = "black";
+                                    }}
+                                >
+                                    <a
+                                        href="#"
+                                        className="nav-link  bg-transparent"
+                                    >
+                                        <i className="nav-icon  fa-brands fa-instagram" />
+                                        <p>Redes</p>
                                     </a>
                                 </div>
                             </li>

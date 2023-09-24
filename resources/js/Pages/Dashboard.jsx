@@ -94,7 +94,7 @@ const states = [
     { name: "Guantánamo", country: "Cuba" },
 ];
 
-export default function Dashboard({ auth, empresa, configuraciones }) {
+export default function Dashboard({ auth, empresa, configuraciones, redes }) {
     // useEffect(() => localStorage.setItem("empresa", JSON.stringify(empresa)),[empresa]);
     document.title = empresa.nombre;
     if (configuraciones && configuraciones.favicon) {
@@ -107,10 +107,15 @@ export default function Dashboard({ auth, empresa, configuraciones }) {
         document.getElementsByTagName("head")[0].appendChild(favicon);
     }
 
-    const [home, setHome] = useState("none");
+    const [home, setHome] = useState(localStorage.getItem("home") || "none");
+
     const cambiarHome = (home) => {
         setHome(home);
     };
+    useEffect(() => {
+        localStorage.setItem("home", home);
+    }, [home]);
+
     return (
         <>
             <div className="wrapper hold-transition sidebar-mini">
@@ -125,6 +130,7 @@ export default function Dashboard({ auth, empresa, configuraciones }) {
                             states={states}
                             countries={countries}
                             configuraciones={configuraciones}
+                            redes={redes}
                         />
                     </>
                 ) : (

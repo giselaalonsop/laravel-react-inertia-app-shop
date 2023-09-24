@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
-const Header = ({ auth, children, empresa, configuraciones }) => {
+const Header = ({ auth, children, empresa, configuraciones, cambiarHome }) => {
     return (
         <div>
             <nav
@@ -20,7 +20,13 @@ const Header = ({ auth, children, empresa, configuraciones }) => {
                         </a>
                     </li>
                     <li className="nav-item d-none d-sm-inline-block mx-2">
-                        <a href="/" className="nav-link">
+                        <a
+                            href="/"
+                            className="nav-link"
+                            onClick={() => {
+                                cambiarHome("none");
+                            }}
+                        >
                             Home
                         </a>
                     </li>

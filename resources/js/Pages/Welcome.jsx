@@ -2,7 +2,6 @@ import fondoM from "../../../public/images/fondo-movil.jpeg";
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Helmet } from "react-helmet-async";
 
 import {
     Button,
@@ -17,26 +16,7 @@ import {
     Row,
 } from "react-bootstrap";
 import logo from "../../assets/images/logo-empresa.png";
-import {
-    MDBCard,
-    MDBCardBody,
-    MDBCardTitle,
-    MDBCardText,
-    MDBCardImage,
-    MDBBtn,
-} from "mdb-react-ui-kit";
-import {
-    FaSearch,
-    FaShoppingCart,
-    FaClock,
-    FaTruck,
-    FaGlobe,
-    FaUser,
-    FaArrowLeft,
-    FaArrowRight,
-    FaLock,
-    FaHeart,
-} from "react-icons/fa";
+import { FaTruck, FaLock, FaHeart } from "react-icons/fa";
 import { MdAccountCircle, MdMenu, MdShoppingCart } from "react-icons/md";
 import { Link } from "react-router-dom";
 import imagenFija from "../../../public/images/1.jpg";
@@ -46,10 +26,9 @@ import tienda from "../../../public/images/tienda.jpg";
 import curso from "../../../public/images/3.jpg";
 import lucir from "../../../public/images/mujer1.jpg";
 import asesoria from "../../../public/images/asesoria.jpeg";
-import fondo from "../../../public/images/1.jpg";
-import { BorderAllRounded } from "@mui/icons-material";
+import SocialMediaTab from "./ComponentsAdmin/ComponentesWelcome/SocialMediaTab";
 
-export default function Welcome({ auth, empresa, configuracion }) {
+export default function Welcome({ auth, empresa, configuracion, redes }) {
     document.title = empresa && empresa.nombre;
     if (configuracion && configuracion.favicon) {
         const favicon =
@@ -116,6 +95,32 @@ export default function Welcome({ auth, empresa, configuracion }) {
         window.scrollTo(0, 0);
     };
 
+    const [rotationAxis, setRotationAxis] = useState("Y");
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            switch (event.key) {
+                case "ArrowUp":
+                    setRotationAxis("Y"); // Cambiar al eje Y
+                    break;
+                case "ArrowLeft":
+                    setRotationAxis("X"); // Cambiar al eje X
+                    break;
+                case "ArrowRight":
+                    setRotationAxis("Z"); // Cambiar al eje Z (profundidad)
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, []);
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) =>
@@ -129,6 +134,8 @@ export default function Welcome({ auth, empresa, configuracion }) {
     return (
         <>
             <div>
+                {/*Cubo */}
+                <SocialMediaTab configuracion={configuracion} redes={redes} />
                 {/*navbar*/}
                 <header
                     className="p-3  "
@@ -750,26 +757,30 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                             }}
                                         >
                                             <span
-                                                className="display-6"
+                                                className=""
                                                 style={{
                                                     transition:
                                                         "background-color 0.3s",
                                                     color: isButtonHovered1
                                                         ? "#fff"
                                                         : "#000",
+                                                    fontSize: "24px",
+                                                    textAlign: "left",
                                                 }}
                                             >
                                                 Nuestra Tienda
                                             </span>
                                         </h5>
                                         <p
-                                            className="card-text"
+                                            className="card-text  "
                                             style={{
                                                 transition:
                                                     "background-color 0.3s",
                                                 color: isButtonHovered1
                                                     ? "#fff"
                                                     : "#000",
+                                                fontSize: "12px",
+                                                textAlign: "left",
                                             }}
                                         >
                                             Consigue todos los productos de
@@ -813,9 +824,10 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                                 color: isButtonHovered2
                                                     ? "#fff"
                                                     : "#000",
+                                                fontSize: "24px",
                                             }}
                                         >
-                                            <span className="display-6">
+                                            <span className="">
                                                 Cursos de Maquillaje
                                             </span>
                                         </h5>
@@ -827,6 +839,8 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                                 color: isButtonHovered2
                                                     ? "#fff"
                                                     : "#000",
+                                                fontSize: "12px",
+                                                textAlign: "left",
                                             }}
                                         >
                                             Incribete en nuestros cursos de
@@ -851,6 +865,7 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                             filter: isButtonHovered3
                                                 ? "brightness(70%)"
                                                 : "brightness(100%)",
+                                            height: "500px",
                                         }}
                                     />
                                     <div
@@ -867,37 +882,41 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                             style={{
                                                 transition:
                                                     "background-color 0.3s",
-                                                color: isButtonHovered3
+                                                color: isButtonHovered1
                                                     ? "#fff"
                                                     : "#000",
                                             }}
                                         >
                                             <span
-                                                className="display-6"
+                                                className=""
                                                 style={{
                                                     transition:
                                                         "background-color 0.3s",
-                                                    color: isButtonHovered3
+                                                    color: isButtonHovered1
                                                         ? "#fff"
                                                         : "#000",
+                                                    fontSize: "24px",
+                                                    textAlign: "left",
                                                 }}
                                             >
-                                                Luce Increible
+                                                Nuestra Tienda
                                             </span>
                                         </h5>
                                         <p
-                                            className="card-text "
+                                            className="card-text  "
                                             style={{
                                                 transition:
                                                     "background-color 0.3s",
                                                 color: isButtonHovered1
                                                     ? "#fff"
                                                     : "#000",
+                                                fontSize: "12px",
+                                                textAlign: "left",
                                             }}
                                         >
-                                            Somos estilistas y maquilladoras,
-                                            agenda tu cita para lucir increible
-                                            ese dia espcial
+                                            Consigue todos los productos de
+                                            maquillaje y cuidado de la piel de
+                                            la mejor calidad
                                         </p>
                                     </div>
                                 </div>
@@ -914,9 +933,10 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                         alt="..."
                                         style={{
                                             transition: "filter 0.3s",
-                                            filter: isButtonHovered4
+                                            filter: isButtonHovered3
                                                 ? "brightness(70%)"
                                                 : "brightness(100%)",
+                                            height: "500px",
                                         }}
                                     />
                                     <div
@@ -933,36 +953,41 @@ export default function Welcome({ auth, empresa, configuracion }) {
                                             style={{
                                                 transition:
                                                     "background-color 0.3s",
-                                                color: isButtonHovered4
+                                                color: isButtonHovered1
                                                     ? "#fff"
                                                     : "#000",
                                             }}
                                         >
                                             <span
-                                                className="display-6"
+                                                className=""
                                                 style={{
                                                     transition:
                                                         "background-color 0.3s",
-                                                    color: isButtonHovered4
+                                                    color: isButtonHovered1
                                                         ? "#fff"
                                                         : "#000",
+                                                    fontSize: "24px",
+                                                    textAlign: "left",
                                                 }}
                                             >
-                                                Luce Increible
+                                                Nuestra Tienda
                                             </span>
                                         </h5>
                                         <p
-                                            className="card-text"
+                                            className="card-text  "
                                             style={{
                                                 transition:
                                                     "background-color 0.3s",
                                                 color: isButtonHovered1
                                                     ? "#fff"
                                                     : "#000",
+                                                fontSize: "12px",
+                                                textAlign: "left",
                                             }}
                                         >
-                                            Contamos con expertos en moda y
-                                            tendencia
+                                            Consigue todos los productos de
+                                            maquillaje y cuidado de la piel de
+                                            la mejor calidad
                                         </p>
                                     </div>
                                 </div>

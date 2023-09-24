@@ -229,7 +229,6 @@ const Formulario1 = ({ empresa, states, countries, configuraciones }) => {
         }
     };
 
-    // const validateForm = () => {
     //     const newErrors = {};
     //     if (
     //         !nombre ||

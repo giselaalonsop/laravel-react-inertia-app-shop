@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\RedesController;
 use App\Models\Empresa;
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ use App\Models\Empresa;
 Route::get('/', [EmpresaController::class, 'index']);
 // Route::get('/', [ConfiguracionController::class, 'index']);
 
-
+Route::post('/redes', [RedesController::class, 'store']);
 
 
 Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

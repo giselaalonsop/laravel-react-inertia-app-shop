@@ -5,8 +5,9 @@ import Footer from "./ComponentsAdmin/Footer";
 import Home from "./ComponentsAdmin/Home";
 import Formulario1 from "./ComponentsAdmin/formulario1";
 import Wizard from "./ComponentsAdmin/Wizard";
-import Item from "./ComponentsAdmin/Item";
+
 import ConfiguracionForm from "./ComponentsAdmin/ConfiguracionForm";
+import Redes from "./ComponentsAdmin/Redes";
 
 export default function Admin({
     empresa,
@@ -16,6 +17,7 @@ export default function Admin({
     states,
     countries,
     configuraciones,
+    redes,
 }) {
     {
         /* 
@@ -31,6 +33,7 @@ export default function Admin({
                     auth={auth}
                     empresa={empresa}
                     configuraciones={configuraciones}
+                    cambiarHome={cambiarHome}
                 />
 
                 {(() => {
@@ -57,21 +60,22 @@ export default function Admin({
                                     />
                                 </div>
                             );
-                        case "datos":
-                            return (
-                                <div>
-                                    <Item
-                                        empresa={empresa}
-                                        configuraciones={configuraciones}
-                                    />
-                                </div>
-                            );
                         case "tools":
                             return (
                                 <div>
                                     <ConfiguracionForm
                                         empresa={empresa}
                                         configuraciones={configuraciones}
+                                    />
+                                </div>
+                            );
+                        case "redes":
+                            return (
+                                <div>
+                                    <Redes
+                                        empresa={empresa}
+                                        configuraciones={configuraciones}
+                                        redes={redes}
                                     />
                                 </div>
                             );

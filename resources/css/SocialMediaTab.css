@@ -1,0 +1,88 @@
+div.espacio3D {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    perspective-origin: center -200%;
+    perspective: 500px;
+    transform: scale(0.15);
+    margin: 20px auto;
+    margin-right: 40px;
+    background-color: none;
+  }
+  
+  div.cubo3D {
+    width: 600%;
+    height: 600%;
+    position: absolute;
+    transform-style: preserve-3d;
+    perspective: -2000px; /* Ajusta la perspectiva según tu preferencia */
+    transform:  translateZ(-150px); /* Ajusta el ángulo de inclinación */
+    animation-name: gira;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    background-color: none;
+  }
+  
+  div.base {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform: translateX(75px) translateY(75px) rotateX(90deg) translateZ(-200px);
+    background-color: none;
+  }
+  img.cara {
+    position: absolute;
+    width: 298px;
+    height: 298px;
+    color: #08f;
+    font-size: 3em;
+    text-align: center;
+    line-height: 298px;
+    background-color: none;
+    
+  }
+  
+  img.cara1 { /* Frente */
+    transform: translateZ(150px);
+  }
+  
+  img.cara2 { /* Atrás */
+    transform: rotateY(180deg) translateZ(150px);
+  }
+  
+  img.cara3 { /* Izquierda */
+    transform: rotateY(-90deg) translateZ(150px);
+  }
+  
+  img.cara4 { /* derecha */
+    transform: rotateY(90deg) translateZ(150px);
+  }
+  
+  img.cara5 { /* arriba */
+    transform: rotateX(90deg) translateZ(150px);
+  }
+  img.cara6 { /* Abajo */
+    transform: rotateX(-90deg) translateZ(150px);
+  }
+  
+  
+  @keyframes gira {
+    0% {
+      transform: translateZ(-150px) rotateY(0deg);
+    }
+    50% {
+      transform: translateZ(-150px) rotateY(180deg);
+    }
+    100% {
+      transform: translateZ(-150px) rotateY(360deg);
+    }
+    
+  }
+  
+  
+
+  .cubo-enlace {
+    display: block;
+    text-decoration: none;
+    position: relative;
+}

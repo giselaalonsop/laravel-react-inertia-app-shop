@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresa;
+use App\Models\Redes;
 use App\Models\Configuracion;
 use Inertia;
 
@@ -15,8 +16,9 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::first();
         $configuracion = Configuracion::first();
+        $redes = Redes::First();
 
-        return inertia('Welcome', ['configuracion' => $configuracion, 'empresa' => $empresa]);
+        return inertia('Welcome', ['configuracion' => $configuracion, 'empresa' => $empresa, 'redes' => $redes]);
     }
     public function store(Request $request)
     {
