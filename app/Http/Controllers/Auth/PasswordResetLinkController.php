@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Configuracion;
 
 class PasswordResetLinkController extends Controller
 {
@@ -17,8 +18,10 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): Response
     {
+        $configuracion = Configuracion::first();
         return Inertia::render('Auth/ForgotPassword', [
             'status' => session('status'),
+            'configuracion' => $configuracion
         ]);
     }
 

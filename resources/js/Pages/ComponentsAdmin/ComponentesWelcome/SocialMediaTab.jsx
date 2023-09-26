@@ -1,9 +1,8 @@
-import Drawer from "react-modern-drawer";
-import "react-modern-drawer/dist/index.css";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
-import "../../../../css/SocialMediaTab.css";
+import "../../../../css/SocialMediaTab.css"; // Asegúrate de importar tus estilos CSS
+
 function SocialMediaTab({ configuracion, redes }) {
     const isDrawerVisible =
         redes.Instagram !== null ||
@@ -18,25 +17,37 @@ function SocialMediaTab({ configuracion, redes }) {
     const getArrowIcon = () => {
         return isOpen ? faAngleRight : faAngleLeft;
     };
-    const drawerStyles = {
-        maxHeight: "50%", // Ajusta la altura máxima según sea necesario
-        width: "5%",
-        marginTop: "200px",
-        backgroundColor: "rgba(255, 255, 255, 0)",
-        boxShadow: "none",
+
+    const handleArrowClick = (e) => {
+        e.stopPropagation();
+        toggleDrawer();
+    };
+
+    const handleContainerClick = (e) => {
+        e.stopPropagation();
     };
 
     return (
-        <div>
+        <div
+            className={`social-media-tab-container ${isOpen ? "open" : ""}`}
+            onClick={handleContainerClick}
+        >
             {isDrawerVisible && (
-                <Drawer
-                    open={isOpen}
-                    onClose={toggleDrawer}
-                    direction="right"
-                    className="drawer-content"
-                    style={drawerStyles}
-                    backgroundColor="none"
-                    overlayColor="none"
+                <div
+                    className={`drawer ${isOpen ? "open" : ""}`}
+                    style={{
+                        zIndex: 999,
+                        transition: "right 0.5s",
+                        top: "42.5%",
+                        zIndex: 999,
+                        height: "20%",
+                        position: "fixed",
+                        right: isOpen ? "-160px" : "-250px", // Ajusta el valor según el ancho del Drawer
+                        width: "250px", // Ajusta el ancho del Drawer según tus necesidades
+                        backgroundColor: "rgba(0, 0, 0, 0)",
+                        display: "flex",
+                        alignItems: "center",
+                    }}
                 >
                     <div className="d-flex flex-column align-items-center justify-content-center h-100">
                         {redes.Instagram !== null && (
@@ -159,7 +170,7 @@ function SocialMediaTab({ configuracion, redes }) {
                             </a>
                         )}
                     </div>
-                </Drawer>
+                </div>
             )}
             <div
                 className="arrow-icon"
@@ -177,8 +188,10 @@ function SocialMediaTab({ configuracion, redes }) {
                     icon={getArrowIcon()}
                     size="2x"
                     style={{ color: configuracion.color2, marginTop: "20px" }}
+                    onClick={handleArrowClick}
                 />
             </div>
+            <div />
         </div>
     );
 }

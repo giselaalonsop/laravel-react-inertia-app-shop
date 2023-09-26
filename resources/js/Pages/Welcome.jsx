@@ -2,7 +2,7 @@ import fondoM from "../../../public/images/fondo-movil.jpeg";
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import {
     Button,
     Container,
@@ -130,7 +130,9 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
 
         return () => clearInterval(interval);
     }, []);
-
+    const handleLogout = () => {
+        window.location.href = "/";
+    };
     return (
         <>
             <div>
@@ -271,12 +273,41 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                                 id="collasible-nav-dropdown"
                             >
                                 {auth.user ? (
-                                    <NavDropdown.Item
-                                        href={route("dashboard")}
-                                        className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >
-                                        Dashboard
-                                    </NavDropdown.Item>
+                                    <div>
+                                        {auth.user.role === "admin" ? (
+                                            <NavDropdown.Item
+                                                href={route("dashboard")}
+                                                className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                            >
+                                                Perfil
+                                            </NavDropdown.Item>
+                                        ) : (
+                                            <NavDropdown.Item>
+                                                <a
+                                                    href="#"
+                                                    className="dropdown-item"
+                                                >
+                                                    <ResponsiveNavLink
+                                                        href={route(
+                                                            "profile.edit"
+                                                        )}
+                                                    >
+                                                        Perfil
+                                                    </ResponsiveNavLink>
+                                                </a>
+                                            </NavDropdown.Item>
+                                        )}
+                                        <NavDropdown.Item>
+                                            <ResponsiveNavLink
+                                                method="post"
+                                                href={route("logout")}
+                                                onClick={handleLogout}
+                                                as="button"
+                                            >
+                                                Cerrar sesión
+                                            </ResponsiveNavLink>
+                                        </NavDropdown.Item>
+                                    </div>
                                 ) : (
                                     <>
                                         <NavDropdown.Item

@@ -13,15 +13,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Configuracion;
+use App\Http\Controllers\ConfiguracionController;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $configuracion = Configuracion::first();
+        return Inertia::render(
+            'Auth/Register',
+            [
+                'configuracion' => $configuracion,
+            ]
+        );
     }
 
     /**
@@ -33,7 +39,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -47,6 +53,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::WELCOME);
     }
 }

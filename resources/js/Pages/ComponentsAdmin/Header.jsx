@@ -30,11 +30,6 @@ const Header = ({ auth, children, empresa, configuraciones, cambiarHome }) => {
                             Home
                         </a>
                     </li>
-                    <li className="nav-item d-none d-sm-inline-block">
-                        <a href="/dashboard" className="nav-link">
-                            User
-                        </a>
-                    </li>
                 </ul>
                 {/* Right navbar links */}
                 <ul className="navbar-nav ml-auto">
@@ -94,7 +89,7 @@ const Header = ({ auth, children, empresa, configuraciones, cambiarHome }) => {
                                     className="dropdown-item"
                                     href={route("profile.edit")}
                                 >
-                                    Profile
+                                    Perfil
                                 </ResponsiveNavLink>
                             </a>
                             <div className="dropdown-divider" />
@@ -105,7 +100,7 @@ const Header = ({ auth, children, empresa, configuraciones, cambiarHome }) => {
                                     href={route("logout")}
                                     as="button"
                                 >
-                                    Log Out
+                                    Cerrar sesion
                                 </ResponsiveNavLink>
                             </a>
                             <div className="dropdown-divider" />
