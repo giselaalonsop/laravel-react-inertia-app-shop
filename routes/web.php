@@ -9,7 +9,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\RedesController;
-use App\Models\Empresa;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,7 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+Route::get('Galeria', [PostController::class, 'create'])->name('Galeria');
+Route::get('PostsForm', [PostController::class, 'index'])->name('PostsForm');
+Route::post('/posts', [PostController::class, 'store']);
+Route::put('/posts.up', [PostController::class, 'update']);
+Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 Route::post('/dashboard', [EmpresaController::class, 'store']);
 Route::post('/configuracion', [ConfiguracionController::class, 'store']);
 

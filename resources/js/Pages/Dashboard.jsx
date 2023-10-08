@@ -94,7 +94,13 @@ const states = [
     { name: "Guantánamo", country: "Cuba" },
 ];
 
-export default function Dashboard({ auth, empresa, configuraciones, redes }) {
+export default function Dashboard({
+    auth,
+    empresa,
+    configuraciones,
+    redes,
+    links,
+}) {
     // useEffect(() => localStorage.setItem("empresa", JSON.stringify(empresa)),[empresa]);
     document.title = empresa.nombre;
     if (configuraciones && configuraciones.favicon) {
@@ -131,6 +137,7 @@ export default function Dashboard({ auth, empresa, configuraciones, redes }) {
                             countries={countries}
                             configuraciones={configuraciones}
                             redes={redes}
+                            links={links}
                         />
                     </>
                 ) : (

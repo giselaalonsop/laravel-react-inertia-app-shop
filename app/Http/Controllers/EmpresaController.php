@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Redes;
 use App\Models\Configuracion;
+use App\Models\Post;
 use Inertia;
 
 class EmpresaController extends Controller
@@ -14,6 +15,7 @@ class EmpresaController extends Controller
 
     public function index()
     {
+
         $empresa = Empresa::first();
         $configuracion = Configuracion::first();
         $redes = Redes::First();

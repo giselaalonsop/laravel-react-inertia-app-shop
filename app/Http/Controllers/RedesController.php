@@ -25,7 +25,7 @@ class RedesController extends Controller
 
                 ]);
             } else {
-                //Si no hay empresa registrada
+                //Si no hay redes registrada
                 $redes = Redes::create([
                     'Instagram' => $request->Instagram,
                     'Facebook' => $request->Facebook,

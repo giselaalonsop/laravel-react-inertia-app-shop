@@ -193,8 +193,30 @@ const Sidebar = ({ auth, cambiarHome, empresa, configuraciones }) => {
                                         href="#"
                                         className="nav-link  bg-transparent"
                                     >
-                                        <i className="nav-icon  fa-brands fa-instagram" />
+                                        <i className="nav-icon  fa-solid fa-heart" />
                                         <p>Redes</p>
+                                    </a>
+                                </div>
+                            </li>
+                            <li
+                                onClick={() => cambiarHome("posts")}
+                                className="nav-item"
+                            >
+                                <div
+                                    onMouseEnter={(e) => {
+                                        e.target.style.color =
+                                            configuraciones.color2;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.color = "black";
+                                    }}
+                                >
+                                    <a
+                                        href="#"
+                                        className="nav-link  bg-transparent"
+                                    >
+                                        <i className="nav-icon  fa-solid fa-file" />
+                                        <p>Posts</p>
                                     </a>
                                 </div>
                             </li>

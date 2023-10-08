@@ -176,10 +176,10 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                                         style={{
                                             color: configuracion.color3,
                                         }}
-                                        href="#"
+                                        href={route("Galeria")}
                                         className="nav-link px-2 link-body-emphasis text-gray-900 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm "
                                     >
-                                        Quienes somos
+                                        Posts
                                     </a>
                                 </li>
                                 <li className="text-gray-800">
@@ -1518,6 +1518,24 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                         <span className="bi bi-arrow-up"></span>
                     </button>
                 </div>
+                {/* <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/Jya0o8Ignas?si=_BibclCTAzx3NRuG"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                ></iframe>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6626260.196228669!2d-105.60628575!3d35.812731261093994!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sve!4v1696373631164!5m2!1ses!2sve"
+                    width={600}
+                    height={450}
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                /> */}
 
                 {/* Footer*/}
                 <footer className=" text-center text-lg-start bg-white text-muted mt-5">

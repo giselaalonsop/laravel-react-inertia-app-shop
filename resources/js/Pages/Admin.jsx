@@ -8,6 +8,7 @@ import Wizard from "./ComponentsAdmin/Wizard";
 
 import ConfiguracionForm from "./ComponentsAdmin/ConfiguracionForm";
 import Redes from "./ComponentsAdmin/Redes";
+import PostForm from "./ComponentsAdmin/PostForm";
 
 export default function Admin({
     empresa,
@@ -18,6 +19,7 @@ export default function Admin({
     countries,
     configuraciones,
     redes,
+    links,
 }) {
     {
         /* 
@@ -76,6 +78,16 @@ export default function Admin({
                                         empresa={empresa}
                                         configuraciones={configuraciones}
                                         redes={redes}
+                                    />
+                                </div>
+                            );
+                        case "posts":
+                            return (
+                                <div>
+                                    <PostForm
+                                        configuraciones={configuraciones}
+                                        empresa={empresa}
+                                        links={links}
                                     />
                                 </div>
                             );

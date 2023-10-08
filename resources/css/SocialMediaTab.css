@@ -1,89 +1,87 @@
+/* Estilos para el contenedor del espacio 3D */
 div.espacio3D {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    perspective-origin: center -200%;
-    perspective: 500px;
-    transform: scale(0.15);
-    margin: 20px auto;
-    margin-right: 40px;
-    background-color: none;
-  }
-  
-  div.cubo3D {
-    width: 600%;
-    height: 600%;
-    position: absolute;
-    transform-style: preserve-3d;
-    perspective: -2000px; /* Ajusta la perspectiva según tu preferencia */
-    transform:  translateZ(-150px); /* Ajusta el ángulo de inclinación */
-    animation-name: gira;
-    animation-duration: 4000ms;
-    animation-iteration-count: infinite;
-    background-color: none;
-  }
-  
-  div.base {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    transform: translateX(75px) translateY(75px) rotateX(90deg) translateZ(-200px);
-    background-color: none;
-  }
-  img.cara {
-    position: absolute;
-    width: 298px;
-    height: 298px;
-    color: #08f;
-    font-size: 3em;
-    text-align: center;
-    line-height: 298px;
-    background-color: none;
-    
-  }
-  
-  img.cara1 { /* Frente */
-    transform: translateZ(150px);
-  }
-  
-  img.cara2 { /* Atrás */
-    transform: rotateY(180deg) translateZ(150px);
-  }
-  
-  img.cara3 { /* Izquierda */
-    transform: rotateY(-90deg) translateZ(150px);
-  }
-  
-  img.cara4 { /* derecha */
-    transform: rotateY(90deg) translateZ(150px);
-  }
-  
-  img.cara5 { /* arriba */
-    transform: rotateX(90deg) translateZ(150px);
-  }
-  img.cara6 { /* Abajo */
-    transform: rotateX(-90deg) translateZ(150px);
-  }
-  
-  
-  @keyframes gira {
-    0% {
-      transform: translateZ(-150px) rotateY(0deg);
-    }
-    50% {
-      transform: translateZ(-150px) rotateY(180deg);
-    }
-    100% {
-      transform: translateZ(-150px) rotateY(360deg);
-    }
-    
-  }
-  
-  
-
-  .cubo-enlace {
-    display: block;
-    text-decoration: none;
-    position: relative;
+  width: 50px; 
+  height: 50px; /* Altura del elemento */
+  position: relative; /* Posición relativa para que otros elementos respeten su posición */
+  perspective-origin: center -200%; /* Origen de la perspectiva (efecto 3D) */
+  perspective: 500px; /* Profundidad de la perspectiva 3D */
+  transform: scale(0.15); /* Escala del elemento */
+  margin: 20px auto; /* Márgenes superior e inferior automáticos y 20px a la izquierda y derecha */
+  margin-right: 40px; /* Márgenes solo a la derecha */
+  background-color: none; /* El color de fondo se establece en "ninguno" (no tiene efecto) */
 }
-/*  */
+
+/* Estilos para el cubo 3D */
+div.cubo3D {
+  width: 600%; /* Ancho del elemento */
+  height: 600%; /* Altura del elemento */
+  position: absolute; /* Posición absoluta para controlar la ubicación */
+  transform-style: preserve-3d; /* Establece el estilo de transformación 3D */
+  perspective: -2000px; /* Profundidad de la perspectiva (efecto 3D) */
+  transform: translateZ(-150px); /* Traduce (mueve) el elemento en el eje Z (profundidad) */
+  animation-name: gira; /* Nombre de la animación */
+  animation-duration: 4000ms; /* Duración de la animación en milisegundos (4 segundos) */
+  animation-iteration-count: infinite; /* Repetición infinita de la animación */
+  background-color: none; /* El color de fondo se establece en "ninguno" (no tiene efecto) */
+}
+
+/* Estilos para la base del cubo */
+div.base {
+  position: absolute; /* Posición absoluta para controlar la ubicación */
+  width: 100px; /* Ancho del elemento */
+  height: 100px; /* Altura del elemento */
+  transform: translateX(75px) translateY(75px) rotateX(90deg) translateZ(-200px); /* Transformación 3D: translación y rotación */
+  background-color: none; /* El color de fondo se establece en "ninguno" (no tiene efecto) */
+}
+
+/* Estilos para las caras del cubo */
+img.cara {
+  position: absolute; /* Posición absoluta para controlar la ubicación */
+  width: 298px; /* Ancho del elemento */
+  height: 298px; /* Altura del elemento */
+  color: #08f; /* Color del texto */
+  font-size: 3em; /* Tamaño de la fuente */
+  text-align: center; /* Alineación del texto al centro */
+  line-height: 298px; /* Altura de línea igual al alto del elemento */
+  background-color: none; /* El color de fondo se establece en "ninguno" (no tiene efecto) */
+}
+
+/* Estilos para cada cara del cubo */
+img.cara1 { /* Frente */
+  transform: translateZ(150px); /* Traduce (mueve) la cara hacia adelante en el eje Z */
+}
+
+img.cara2 { /* Atrás */
+  transform: rotateY(180deg) translateZ(150px); /* Rota la cara 180 grados y la traduce hacia atrás en el eje Z */
+}
+
+img.cara3 { /* Izquierda */
+  transform: rotateY(-90deg) translateZ(150px); /* Rota la cara -90 grados (sentido contrario a las agujas del reloj) y la traduce hacia atrás en el eje Z */
+}
+
+img.cara4 { /* Derecha */
+  transform: rotateY(90deg) translateZ(150px); /* Rota la cara 90 grados (en sentido de las agujas del reloj) y la traduce hacia atrás en el eje Z */
+}
+
+img.cara5 { /* Arriba */
+  transform: rotateX(90deg) translateZ(150px); /* Rota la cara 90 grados hacia arriba y la traduce hacia arriba en el eje Z */
+}
+
+img.cara6 { /* Abajo */
+  transform: rotateX(-90deg) translateZ(150px); /* Rota la cara -90 grados hacia abajo y la traduce hacia abajo en el eje Z */
+}
+
+/* Definición de la animación "gira" */
+@keyframes gira {
+  0% {
+    transform: translateZ(-150px) rotateY(0deg); /* Estado inicial de la animación */
+  }
+ 
+  50% {
+    transform: translateZ(-150px) rotateY(180deg); /* Estado intermedio de la animación */
+  }
+  100% {
+    transform: translateZ(-150px) rotateY(360deg); /* Estado final de la animación */
+  }
+}
+
