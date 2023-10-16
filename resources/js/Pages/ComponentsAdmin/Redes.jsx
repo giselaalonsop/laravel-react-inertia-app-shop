@@ -12,13 +12,13 @@ import Swal from "sweetalert2";
 export default function Redes({ empresa, configuraciones, redes }) {
     // Estados individuales para cada red social y su enlace
     const [facebook, setFacebook] = useState(
-        redes.Facebook == null ? false : true
+        redes?.Facebook == null ? false : true
     );
     const [instagram, setInstagram] = useState(
-        redes.Instagram == null ? false : true
+        redes?.Instagram == null ? false : true
     );
     const [twitter, setTwitter] = useState(
-        redes.Twitter == null ? false : true
+        redes?.Twitter == null ? false : true
     );
 
     // Estados para controlar los enlaces de las redes sociales

@@ -16,5 +16,6 @@ class Configuracion extends Model
         'color3',
         'color4',
         'color5',
+        'ubicacion'
     ];
 }

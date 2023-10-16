@@ -44,9 +44,11 @@ class ConfiguracionController extends Controller
                     $configuraciones->$colorField = $request->$colorField;
                 }
             }
+            if ($request->has('ubicacion')) {
+                $configuraciones->ubicacion = $request->ubicacion;
+            }
 
-
-            if ($request->hasFile('logo') || $request->hasFile('favicon') || $request->hasAny($colors)) {
+            if ($request->hasFile('logo') || $request->hasFile('favicon') || $request->hasAny($colors) || $request->has('ubicacion')) {
                 $configuraciones->save();
                 return response()->json(['message' => 'Datos guardados exitosamente'], 201);
             }

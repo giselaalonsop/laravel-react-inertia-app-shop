@@ -19,8 +19,10 @@ class EmpresaController extends Controller
         $empresa = Empresa::first();
         $configuracion = Configuracion::first();
         $redes = Redes::First();
+        $posts = Post::all();
+        $links = $posts->groupBy('tipo');
 
-        return inertia('Welcome', ['configuracion' => $configuracion, 'empresa' => $empresa, 'redes' => $redes]);
+        return inertia('Welcome', ['configuracion' => $configuracion, 'empresa' => $empresa, 'redes' => $redes, 'links' => $links]);
     }
     public function store(Request $request)
     {

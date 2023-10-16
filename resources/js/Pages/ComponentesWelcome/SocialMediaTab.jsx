@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-import "../../../../css/SocialMediaTab.css"; // Asegúrate de importar tus estilos CSS
+import "../../../css/SocialMediaTab.css"; // Asegúrate de importar tus estilos CSS
 
 function SocialMediaTab({ configuracion, redes }) {
     const isDrawerVisible =
-        redes.Instagram !== null ||
-        redes.Facebook !== null ||
-        redes.Twitter !== null;
+        redes?.Instagram !== null ||
+        redes?.Facebook !== null ||
+        redes?.Twitter !== null;
 
     const [isOpen, setIsOpen] = useState(true);
     const toggleDrawer = () => {
@@ -40,7 +40,7 @@ function SocialMediaTab({ configuracion, redes }) {
                         transition: "right 0.5s",
                         top: "42.5%",
                         zIndex: 999,
-                        height: "20%",
+                        height: "18%",
                         position: "fixed",
                         right: isOpen ? "-160px" : "-250px", // Ajusta el valor según el ancho del Drawer
                         width: "250px", // Ajusta el ancho del Drawer según tus necesidades
@@ -50,7 +50,7 @@ function SocialMediaTab({ configuracion, redes }) {
                     }}
                 >
                     <div className="d-flex flex-column align-items-center justify-content-center h-100">
-                        {redes.Instagram !== null && (
+                        {redes?.Instagram !== null && (
                             <a href={redes.Instagram} target="_blank">
                                 <div className="espacio3D">
                                     <div className="cubo3D">
@@ -89,7 +89,7 @@ function SocialMediaTab({ configuracion, redes }) {
                                 </div>
                             </a>
                         )}
-                        {redes.Twitter !== null && (
+                        {redes?.Twitter !== null && (
                             <a href={redes.Twitter} target="_blank">
                                 <div className="espacio3D">
                                     <div className="cubo3D">
@@ -128,7 +128,7 @@ function SocialMediaTab({ configuracion, redes }) {
                                 </div>
                             </a>
                         )}
-                        {redes.Facebook !== null && (
+                        {redes?.Facebook !== null && (
                             <a href={redes.Facebook} target="_blank">
                                 <div className="espacio3D">
                                     <div className="cubo3D">
@@ -177,7 +177,7 @@ function SocialMediaTab({ configuracion, redes }) {
                 onClick={toggleDrawer}
                 style={{
                     position: "fixed",
-                    top: "50%",
+                    top: "49%",
                     right: isOpen ? "80px" : "0px",
                     zIndex: 999,
                     transition: "right 0.5s",

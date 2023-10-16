@@ -1,16 +1,22 @@
 import { useDropzone } from "react-dropzone";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { Container, Button, Col, Row } from "react-bootstrap";
+import { Container, Button, Col, Row, Form } from "react-bootstrap";
 import { ChromePicker } from "react-color";
 import React, { useState, useRef, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import "../../../css/app.css";
+import { MDBIcon } from "mdb-react-ui-kit";
 
 const ConfiguracionForm = ({ empresa, configuraciones }) => {
-    const nombre = ["Base", "Complementario", "Detalles", "Otros"];
+    const [ubicacion, setUbicacion] = useState(
+        configuraciones.ubicacion || "https://www.google.com/maps/@ejemplo"
+    );
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedFavicon, setSelectedFavicon] = useState(null);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState({});
     const [chrome, setChrome] = useState(0); // Inicialmente ningún círculo seleccionado
     const [circleColors, setCircleColors] = useState([
         configuraciones.color1 || "",
@@ -18,6 +24,26 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
         configuraciones.color3 || "",
         configuraciones.color4 || "",
     ]);
+    const validateGoogleMapsLink = (link) => {
+        const errors = {};
+
+        if (!link) {
+            errors.ubicacion = "El enlace no puede estar vacío";
+        } else {
+            const googleMapsRegex =
+                /https:\/\/(www\.)?google\.com\/maps\/|https:\/\/maps\.app\.goo\.gl/;
+            if (!googleMapsRegex.test(link)) {
+                errors.ubicacion = "El enlace no es válido para Google Maps";
+            }
+        }
+
+        setErrorMessage(errors);
+        if (Object.keys(errors).length > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     const handleCircleColorChange = (index, color) => {
         const updatedColors = [...circleColors];
@@ -28,6 +54,7 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
         /*validar que solo sea imagen*/
     }
     const handleDrop = (acceptedFiles, type) => {
+        const errors = {};
         const file = acceptedFiles[0];
         if (file) {
             if (file.type.startsWith("image/")) {
@@ -40,12 +67,21 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
             } else {
                 setSelectedImage(null);
                 setSelectedFavicon(null);
-                setErrorMessage("El archivo debe ser una imagen");
+                Swal.fire("Registro procesado", "", "success");
+                Swal.fire(
+                    "error",
+                    "El archivo debe ser de tipo imagen",
+                    "Error"
+                );
             }
         }
     };
 
     const handleUpload = async () => {
+        if (validateGoogleMapsLink(ubicacion) == false) {
+            return;
+        }
+
         try {
             const formData = new FormData();
             if (selectedImage) {
@@ -56,6 +92,9 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
             }
             for (let i = 0; i < circleColors.length; i++) {
                 formData.append(`color${i + 1}`, circleColors[i]);
+            }
+            if (ubicacion) {
+                formData.append("ubicacion", ubicacion);
             }
 
             const response = await axios.post("/configuracion", formData, {
@@ -73,7 +112,9 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
             console.error("Error:", error);
         }
     };
-
+    useEffect(() => {
+        validateGoogleMapsLink(ubicacion);
+    }, [ubicacion]);
     const logoDropzone = useDropzone({
         onDrop: (acceptedFiles) => handleDrop(acceptedFiles, "logo"),
         accept: "image/*",
@@ -114,12 +155,48 @@ const ConfiguracionForm = ({ empresa, configuraciones }) => {
                                 }}
                             >
                                 <section className="container">
-                                    {errorMessage && (
+                                    {errorMessage.drop && (
                                         <p className="error-message  text-center text-red-600">
-                                            {errorMessage}
+                                            {errorMessage.drop}
                                         </p>
                                     )}
                                     <Container>
+                                        <Form className="w-60 mx-auto">
+                                            <Form.Label className="text-center">
+                                                Link de google maps
+                                            </Form.Label>
+                                            <div className="input-group ">
+                                                <Form.Control
+                                                    type="text"
+                                                    name="nombre"
+                                                    value={ubicacion}
+                                                    isInvalid={
+                                                        !!errorMessage.ubicacion
+                                                    }
+                                                    onChange={(e) =>
+                                                        setUbicacion(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                <span className="input-group-text">
+                                                    <MDBIcon
+                                                        fas
+                                                        icon="map-marked-alt"
+                                                    />
+                                                </span>
+                                            </div>
+                                            <Form.Control.Feedback
+                                                type="invalid"
+                                                className="d-block mt-1  text-xs"
+                                            >
+                                                {errorMessage.ubicacion && (
+                                                    <p className="error-message  text-center text-red-600">
+                                                        {errorMessage.ubicacion}
+                                                    </p>
+                                                )}
+                                            </Form.Control.Feedback>
+                                        </Form>
                                         <form
                                             encType="multipart/form-data"
                                             className="text-center d-flex align-items-center justify-content-center"

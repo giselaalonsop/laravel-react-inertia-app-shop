@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Empresa;
+use App\Models\Configuracion;
 
 class PostController extends Controller
 {
@@ -13,9 +15,11 @@ class PostController extends Controller
      */
     public function create()
     {
+        $empresa = Empresa::first();
+        $configuracion = Configuracion::first();
         $posts = Post::all();
         $links = $posts->groupBy('tipo');
-        return Inertia::render('Galeria', ['links' => $links]);
+        return Inertia::render('Galeria', ['links' => $links, 'empresa' => $empresa, 'configuracion' => $configuracion]);
     }
     public function index()
     {

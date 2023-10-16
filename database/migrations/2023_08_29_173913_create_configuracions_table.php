@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('color3')->nullable();
             $table->string('color4')->nullable();
             $table->string('color5')->nullable();
+            $table->text('ubicacion')->nullable();
             $table->timestamps();
         });
     }

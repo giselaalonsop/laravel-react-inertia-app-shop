@@ -4,13 +4,53 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Col, Row, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { MDBIcon } from "mdb-react-ui-kit";
 
 export default function PostForm({ configuraciones, empresa, links }) {
+    const [errors, setErrors] = useState([]);
+
     const [platforms, setPlatforms] = useState([]);
     const [newPlatform, setNewPlatform] = useState({
         type: "Instagram",
-        link: "",
+        link: "https://www.instagram.com/p/ejemplo",
     });
+    // Funciones para validar enlaces de Instagram y YouTube
+    const isValidInstagramLink = (link) => {
+        const instagramRegex = /https:\/\/www\.instagram\.com\/.+/;
+        return instagramRegex.test(link);
+    };
+
+    const isValidYouTubeLink = (link) => {
+        const youtubeRegex = /https:\/\/www\.youtube\.com\/.+/;
+        return youtubeRegex.test(link);
+    };
+    const validar = (platforms) => {
+        const newErrors = platforms.map((platformItem, index) => {
+            const platformErrors = {};
+
+            if (platformItem.type === "Instagram") {
+                if (!platformItem.link) {
+                    platformErrors.link =
+                        "El enlace de Instagram no puede estar vacío.";
+                } else if (!isValidInstagramLink(platformItem.link)) {
+                    platformErrors.link =
+                        "El enlace de Instagram no es válido.";
+                }
+            } else if (platformItem.type === "Youtube") {
+                if (!platformItem.link) {
+                    platformErrors.link =
+                        "El enlace de YouTube no puede estar vacío.";
+                } else if (!isValidYouTubeLink(platformItem.link)) {
+                    platformErrors.link = "El enlace de YouTube no es válido.";
+                }
+            }
+
+            return platformErrors;
+        });
+
+        // Actualiza el estado de errores
+        setErrors(newErrors);
+    };
 
     useEffect(() => {
         // Inicializar el estado platforms con los enlaces guardados
@@ -30,10 +70,16 @@ export default function PostForm({ configuraciones, empresa, links }) {
             setPlatforms(initialPlatforms);
         }
     }, [links]);
+    useEffect(() => {
+        validar(platforms);
+    }, [platforms]);
 
     const handleAddPlatform = () => {
         setPlatforms([...platforms, { ...newPlatform, id: null }]);
-        setNewPlatform({ type: "Instagram", link: "" });
+        setNewPlatform({
+            type: "Instagram",
+            link: "https://www.instagram.com/p/ejemplo",
+        });
     };
 
     const handleRemovePlatform = async (id, index) => {
@@ -63,6 +109,9 @@ export default function PostForm({ configuraciones, empresa, links }) {
     const handlePlatformChange = (event, index) => {
         const newPlatforms = [...platforms];
         newPlatforms[index].type = event.target.value;
+        newPlatforms[index].link = `https://www.${newPlatforms[
+            index
+        ].type.toLowerCase()}.com/ejemplo`;
         setPlatforms(newPlatforms);
     };
 
@@ -73,6 +122,16 @@ export default function PostForm({ configuraciones, empresa, links }) {
     };
 
     const handleSubmit = async (e) => {
+        const val = validar(platforms);
+        if (val != null) {
+            e.preventDefault();
+            Swal.fire(
+                "Error",
+                "Hubo un error al guardar/actualizar los enlaces.",
+                "error"
+            );
+            return;
+        }
         try {
             const newPlatformsToSave = platforms.filter(
                 (platform) => !platform.id
@@ -147,66 +206,63 @@ export default function PostForm({ configuraciones, empresa, links }) {
                                                         ) => (
                                                             <div
                                                                 key={index}
-                                                                className="mb-3 align-items-center  rounded p-3"
+                                                                className="mb-3 align-items-center rounded p-3"
                                                                 style={{
                                                                     backgroundColor:
                                                                         "#f8f9fa",
                                                                 }}
                                                             >
-                                                                <Row>
-                                                                    <Col xs={1}>
-                                                                        {platformItem.type ===
-                                                                        "Instagram" ? (
-                                                                            <FontAwesomeIcon
-                                                                                icon={
-                                                                                    faInstagram
-                                                                                }
-                                                                                size="lg"
-                                                                            />
-                                                                        ) : (
-                                                                            <FontAwesomeIcon
-                                                                                icon={
-                                                                                    faYoutube
-                                                                                }
-                                                                                size="lg"
-                                                                            />
-                                                                        )}
-                                                                    </Col>
-                                                                    <Col
-                                                                        xs={6}
-                                                                        sm={5}
-                                                                    >
+                                                                <div className="row">
+                                                                    <div className="col-12 col-md-1"></div>
+                                                                    <div className="col-6 col-md-5">
                                                                         <Form.Group>
                                                                             <Form.Label>
                                                                                 Plataforma
                                                                             </Form.Label>
-                                                                            <Form.Control
-                                                                                as="select"
-                                                                                onChange={(
-                                                                                    e
-                                                                                ) =>
-                                                                                    handlePlatformChange(
-                                                                                        e,
-                                                                                        index
-                                                                                    )
-                                                                                }
-                                                                                value={
-                                                                                    platformItem.type
-                                                                                }
-                                                                            >
-                                                                                <option value="Instagram">
-                                                                                    Instagram
-                                                                                </option>
-                                                                                <option value="Youtube">
-                                                                                    Youtube
-                                                                                </option>
-                                                                            </Form.Control>
+                                                                            <div className="input-group">
+                                                                                <span className="input-group-text">
+                                                                                    {platformItem.type ===
+                                                                                    "Instagram" ? (
+                                                                                        <FontAwesomeIcon
+                                                                                            icon={
+                                                                                                faInstagram
+                                                                                            }
+                                                                                            size="lg"
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <FontAwesomeIcon
+                                                                                            icon={
+                                                                                                faYoutube
+                                                                                            }
+                                                                                            size="lg"
+                                                                                        />
+                                                                                    )}
+                                                                                </span>
+                                                                                <Form.Control
+                                                                                    as="select"
+                                                                                    onChange={(
+                                                                                        e
+                                                                                    ) =>
+                                                                                        handlePlatformChange(
+                                                                                            e,
+                                                                                            index
+                                                                                        )
+                                                                                    }
+                                                                                    value={
+                                                                                        platformItem.type
+                                                                                    }
+                                                                                >
+                                                                                    <option value="Instagram">
+                                                                                        Instagram
+                                                                                    </option>
+                                                                                    <option value="Youtube">
+                                                                                        Youtube
+                                                                                    </option>
+                                                                                </Form.Control>
+                                                                            </div>
                                                                         </Form.Group>
-                                                                    </Col>
-                                                                    <Col
-                                                                        xs={6}
-                                                                        sm={5}
-                                                                    >
+                                                                    </div>
+                                                                    <div className="col-6 col-md-5">
                                                                         <Form.Group>
                                                                             <Form.Label>
                                                                                 Enlace
@@ -224,34 +280,50 @@ export default function PostForm({ configuraciones, empresa, links }) {
                                                                                         index
                                                                                     )
                                                                                 }
+                                                                                isInvalid={
+                                                                                    errors[
+                                                                                        index
+                                                                                    ] &&
+                                                                                    errors[
+                                                                                        index
+                                                                                    ]
+                                                                                        .link
+                                                                                }
                                                                             />
+                                                                            <Form.Control.Feedback type="invalid">
+                                                                                {errors[
+                                                                                    index
+                                                                                ] &&
+                                                                                    errors[
+                                                                                        index
+                                                                                    ]
+                                                                                        .link}
+                                                                            </Form.Control.Feedback>
                                                                         </Form.Group>
-                                                                    </Col>
-                                                                    <Col xs={1}>
+                                                                    </div>
+                                                                    <Col
+                                                                        xs={1}
+                                                                        className="order-2 order-sm-1"
+                                                                    >
                                                                         {index >
                                                                             -1 && (
-                                                                            <Button
-                                                                                variant="danger"
+                                                                            <MDBIcon
                                                                                 onClick={() =>
                                                                                     handleRemovePlatform(
                                                                                         platformItem.id,
                                                                                         index
                                                                                     )
                                                                                 }
-                                                                                className="mt-3"
-                                                                                style={{
-                                                                                    backgroundColor:
-                                                                                        "Red",
-                                                                                }}
-                                                                            >
-                                                                                -
-                                                                            </Button>
+                                                                                className="mt-4 cursor-pointer"
+                                                                                icon="trash-alt"
+                                                                            />
                                                                         )}
                                                                     </Col>
-                                                                </Row>
+                                                                </div>
                                                             </div>
                                                         )
                                                     )}
+
                                                     <div className=" text-center my-2 a">
                                                         <Button
                                                             variant="primary"

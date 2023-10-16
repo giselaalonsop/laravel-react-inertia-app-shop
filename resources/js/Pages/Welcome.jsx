@@ -18,7 +18,6 @@ import {
 import logo from "../../assets/images/logo-empresa.png";
 import { FaTruck, FaLock, FaHeart } from "react-icons/fa";
 import { MdAccountCircle, MdMenu, MdShoppingCart } from "react-icons/md";
-import { Link } from "react-router-dom";
 import imagenFija from "../../../public/images/1.jpg";
 import imagenC1 from "../../../public/images/cambiante3.jpeg";
 import imagenC2 from "../../../public/images/imagen2.jpg";
@@ -26,9 +25,15 @@ import tienda from "../../../public/images/tienda.jpg";
 import curso from "../../../public/images/3.jpg";
 import lucir from "../../../public/images/mujer1.jpg";
 import asesoria from "../../../public/images/asesoria.jpeg";
-import SocialMediaTab from "./ComponentsAdmin/ComponentesWelcome/SocialMediaTab";
+import SocialMediaTab from "./ComponentesWelcome/SocialMediaTab";
 
-export default function Welcome({ auth, empresa, configuracion, redes }) {
+export default function Welcome({
+    auth,
+    empresa,
+    configuracion,
+    redes,
+    links,
+}) {
     document.title = empresa && empresa.nombre;
     if (configuracion && configuracion.favicon) {
         const favicon =
@@ -137,7 +142,9 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
         <>
             <div>
                 {/*Cubo */}
+
                 <SocialMediaTab configuracion={configuracion} redes={redes} />
+
                 {/*navbar*/}
                 <header
                     className="p-3  "
@@ -171,17 +178,20 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                                         Principal
                                     </a>
                                 </li>
-                                <li>
-                                    <a
-                                        style={{
-                                            color: configuracion.color3,
-                                        }}
-                                        href={route("Galeria")}
-                                        className="nav-link px-2 link-body-emphasis text-gray-900 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm "
-                                    >
-                                        Posts
-                                    </a>
-                                </li>
+                                {links && (
+                                    <li>
+                                        <a
+                                            style={{
+                                                color: configuracion.color3,
+                                            }}
+                                            href={route("Galeria")}
+                                            className="nav-link px-2 link-body-emphasis text-gray-900 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm "
+                                        >
+                                            Galeria
+                                        </a>
+                                    </li>
+                                )}
+
                                 <li className="text-gray-800">
                                     <NavDropdown
                                         className="text-dark "
@@ -336,6 +346,7 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                         </div>
                     </div>
                 </header>
+
                 {/*carousel*/}
                 <div
                     className="navbar navbar-expand-lg navbar-light"
@@ -1518,24 +1529,6 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                         <span className="bi bi-arrow-up"></span>
                     </button>
                 </div>
-                {/* <iframe
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/Jya0o8Ignas?si=_BibclCTAzx3NRuG"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                ></iframe>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d6626260.196228669!2d-105.60628575!3d35.812731261093994!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sve!4v1696373631164!5m2!1ses!2sve"
-                    width={600}
-                    height={450}
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                /> */}
 
                 {/* Footer*/}
                 <footer className=" text-center text-lg-start bg-white text-muted mt-5">
@@ -1741,6 +1734,29 @@ export default function Welcome({ auth, empresa, configuracion, redes }) {
                             {/* Grid row */}
                         </div>
                     </section>
+                    <h6 className="text-uppercase fw-bold text-center ">
+                        Como llegar
+                    </h6>
+                    <iframe
+                        className=" mx-auto w-full "
+                        name="mapa"
+                        title="Ubicacion"
+                        src={
+                            configuracion.ubicacion.startsWith(
+                                "https://www.google.com/maps"
+                            )
+                                ? configuracion.ubicacion
+                                : "https://www.google.com/maps?q=" +
+                                  encodeURIComponent(configuracion.ubicacion)
+                        }
+                        width=""
+                        height="300"
+                        style={{ border: "0" }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+
                     {/* Section: Links  */}
                     {/* Copyright */}
                     <div
