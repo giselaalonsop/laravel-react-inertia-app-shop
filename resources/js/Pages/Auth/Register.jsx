@@ -19,11 +19,44 @@ export default function Register({ configuracion }) {
             reset("password", "password_confirmation");
         };
     }, []);
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!data.name) {
+            newErrors.name = "El nombre es obligatorio.";
+        }
+
+        if (!data.email) {
+            newErrors.email = "El correo electrónico es obligatorio.";
+        } else if (!isValidEmail(data.email)) {
+            newErrors.email = "Ingresa un correo electrónico válido.";
+        }
+
+        if (!data.password) {
+            newErrors.password = "La contraseña es obligatoria.";
+        }
+
+        if (data.password !== data.password_confirmation) {
+            newErrors.password_confirmation = "Las contraseñas no coinciden.";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const isValidEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route("register"));
+        const isValid = validateForm();
+        if (!isValid) {
+            return;
+        }
     };
 
     return (
@@ -31,7 +64,7 @@ export default function Register({ configuracion }) {
             <GuestLayout configuracion={configuracion}>
                 <div className="flex justify-center">
                     <img
-                        src={configuracion.logo} // Agrega el logo
+                        src={configuracion.logo}
                         alt="Logo"
                         style={{ maxWidth: "200px" }}
                     />
@@ -133,7 +166,7 @@ export default function Register({ configuracion }) {
                             className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             style={{ color: configuracion.color3 }}
                         >
-                            Already registered?
+                            Ya estas Registrado?
                         </Link>
 
                         <PrimaryButton
@@ -144,7 +177,7 @@ export default function Register({ configuracion }) {
                                 borderColor: configuracion.color4,
                             }}
                         >
-                            Register
+                            Registrarse
                         </PrimaryButton>
                     </div>
                 </form>

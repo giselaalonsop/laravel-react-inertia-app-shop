@@ -1,0 +1,9 @@
+/* En tu archivo CSS o directamente en tu componente */
+@keyframes fadeOut {
+    0% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(100%); }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-out;
+}

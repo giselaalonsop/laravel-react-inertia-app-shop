@@ -5,9 +5,10 @@ import { Container, Button, Col, Row, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { MDBIcon } from "mdb-react-ui-kit";
-
+import "../ComponentsAdmin/Post.css";
 export default function PostForm({ configuraciones, empresa, links }) {
     const [errors, setErrors] = useState([]);
+    const [removingIndex, setRemovingIndex] = useState(null);
 
     const [platforms, setPlatforms] = useState([]);
     const [newPlatform, setNewPlatform] = useState({
@@ -88,9 +89,15 @@ export default function PostForm({ configuraciones, empresa, links }) {
                 await axios.delete(`/posts/${id}`);
             }
 
-            const newPlatforms = [...platforms];
-            newPlatforms.splice(index, 1);
-            setPlatforms(newPlatforms);
+            setRemovingIndex(index); // Establece el índice del elemento a eliminar
+
+            // Después de un tiempo (0.5 segundos en este caso), elimina la plataforma del estado
+            setTimeout(() => {
+                const newPlatforms = [...platforms];
+                newPlatforms.splice(index, 1);
+                setPlatforms(newPlatforms);
+                setRemovingIndex(null); // Restablece el índice de eliminación
+            }, 500); // Tie
 
             //     Swal.fire(
             //         "Éxito",
@@ -206,7 +213,12 @@ export default function PostForm({ configuraciones, empresa, links }) {
                                                         ) => (
                                                             <div
                                                                 key={index}
-                                                                className="mb-3 align-items-center rounded p-3"
+                                                                className={`mb-3 align-items-center rounded p-3 ${
+                                                                    index ===
+                                                                    removingIndex
+                                                                        ? "fade-out"
+                                                                        : ""
+                                                                }`}
                                                                 style={{
                                                                     backgroundColor:
                                                                         "#f8f9fa",

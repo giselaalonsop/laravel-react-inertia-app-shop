@@ -9,25 +9,49 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "../Pages/estilo.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Galeria = ({ links, empresa, configuracion, auth }) => {
+    document.title = empresa && empresa.nombre;
+    if (configuracion && configuracion.favicon) {
+        const favicon =
+            document.querySelector("link[rel*='icon']") ||
+            document.createElement("link");
+        favicon.type = "image/x-icon";
+        favicon.rel = "icon";
+        favicon.href = configuracion.favicon;
+        document.getElementsByTagName("head")[0].appendChild(favicon);
+    }
+    const instagramNumero = () => {
+        if (instagramPostIds.length > 2) {
+            return 3;
+        } else {
+            if (instagramPostIds.length > 1) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+    };
+
     const [youtubeVideoIds, setYoutubeVideoIds] = useState([]);
     const [instagramPostIds, setInstagramPostIds] = useState([]);
-    const settings = {
+    const settingsI = {
         dots: true,
         nav: true,
         infinite: true,
         autoplay: true,
+
         inicialSlide: 0,
         speed: 800,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: instagramNumero(),
+        slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
+                    slidesToShow: instagramNumero(),
+                    slidesToScroll: 1,
                     infinite: true,
                     dots: true,
                 },
@@ -35,14 +59,15 @@ const Galeria = ({ links, empresa, configuracion, auth }) => {
             {
                 breakpoint: 600,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
+                    slidesToShow: instagramNumero() > 1 ? 2 : instagramNumero(),
+                    slidesToScroll:
+                        instagramNumero() > 2 ? 2 : instagramNumero(),
                 },
             },
             {
                 breakpoint: 480,
                 settings: {
-                    slidesToShow: 1,
+                    slidesToShow: instagramNumero() > 1 ? 1 : instagramNumero(),
                     slidesToScroll: 1,
                 },
             },
@@ -50,14 +75,14 @@ const Galeria = ({ links, empresa, configuracion, auth }) => {
 
         swipeToSlide: true,
 
-        nextArrow: <SampleNextArrow className="text-black" />,
-        prevArrow: <SamplePrevArrow />,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow size="40px" />,
     };
     const settingsY = {
         dots: true,
         infinite: false,
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: youtubeVideoIds.length > 2 ? 3 : youtubeVideoIds.length,
         slidesToScroll: 4,
         responsive: [
             {
@@ -361,13 +386,13 @@ const Galeria = ({ links, empresa, configuracion, auth }) => {
                                         href={route("login")}
                                         className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                                     >
-                                        Log in
+                                        Ingresar
                                     </NavDropdown.Item>
                                     <NavDropdown.Item
                                         href={route("register")}
                                         className="font-semibold text-gray-600 hover:text-red-500 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                                     >
-                                        Register
+                                        Registrarse
                                     </NavDropdown.Item>
                                 </>
                             )}
@@ -383,92 +408,76 @@ const Galeria = ({ links, empresa, configuracion, auth }) => {
                     </div>
                 </div>
             </header>
-            <section className="py-1  ">
-                <div
-                    className="container-lg mt-2 p-8 rounded "
-                    style={{ backgroundColor: configuracion.color2 }}
-                >
-                    <h2 className="text-center mb-4 display-6 text-white font-mono">
-                        Galeria
-                    </h2>
+            <div className="" style={{ backgroundColor: configuracion.color2 }}>
+                <section className="py-1  ">
                     <div
-                        className="container  my-5 cursor-move"
-                        style={{ maxWidth: "400" }}
+                        className="container-lg mt-2 p-8 rounded bg-pink-200"
+                        style={{ backgroundColor: configuracion.color2 }}
                     >
-                        <div className=" ">
-                            <Slider {...settings}>
-                                {instagramPostIds.map((postId) => (
-                                    <div className="card-wrapper">
-                                        <div className="card">
-                                            <div className="card-image">
-                                                <div key={postId}>
-                                                    <iframe
-                                                        src={`https://www.instagram.com/p/${postId}/embed`}
-                                                        width="400"
-                                                        height="600"
-                                                        frameBorder="0"
-                                                        scrolling="no"
-                                                        allowtransparency="true"
-                                                    />
+                        <h2 className="text-center mb-4 display-6 text-white font-mono">
+                            Galeria
+                        </h2>
+                        <div className="container  my-5 cursor-move">
+                            <div className="">
+                                <Slider {...settingsI}>
+                                    {instagramPostIds.map((postId) => (
+                                        <div className="card-wrapper">
+                                            <div className="card flex justify-center">
+                                                <div className="card-image">
+                                                    <div key={postId}>
+                                                        <iframe
+                                                            src={`https://www.instagram.com/p/${postId}/embed`}
+                                                            width="400"
+                                                            height="600"
+                                                            frameBorder="0"
+                                                            scrolling="no"
+                                                            allowtransparency="true"
+                                                        />
 
-                                                    <ul className="social-icons">
-                                                        <li>
-                                                            <a href="#">
-                                                                <i className="fa fa-facebook"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i className="fa fa-instagram"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i className="fa fa-twitter"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">
-                                                                <i className="fa fa-dribbble"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <div className="details">
-                                                        <h2>
-                                                            John Doe{" "}
-                                                            <span className="job-title">
-                                                                UI Developer
-                                                            </span>
-                                                        </h2>
+                                                        <div className="details text-center bg-transparent">
+                                                            <div
+                                                                className="btn cursor-pointer text-center btn-white"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        configuracion.color2,
+                                                                }}
+                                                            >
+                                                                <a
+                                                                    href={`https://www.instagram.com/p/${postId}/embed`}
+                                                                >
+                                                                    Ver en ig
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </Slider>
-                        </div>
-                        <div className=" bg-white p-8 rounded mt-10">
-                            <Slider {...settings} className="">
-                                {youtubeVideoIds.map((value, index) => (
-                                    <div key={index}>
-                                        <div>
-                                            <iframe
-                                                width="100%"
-                                                height="200"
-                                                src={`https://www.youtube.com/embed/${value}?si=Qfb0vauL5b1y31bb`}
-                                                title="YouTube video player"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                allowFullScreen
-                                            ></iframe>
+                                    ))}
+                                </Slider>
+                            </div>
+                            <div className="  rounded mt-10">
+                                <Slider {...settingsY} className="">
+                                    {youtubeVideoIds.map((value, index) => (
+                                        <div key={index}>
+                                            <div>
+                                                <iframe
+                                                    width="100%"
+                                                    height="200"
+                                                    src={`https://www.youtube.com/embed/${value}?si=Qfb0vauL5b1y31bb`}
+                                                    title="YouTube video player"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                    allowFullScreen
+                                                ></iframe>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </Slider>
+                                    ))}
+                                </Slider>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             <footer className=" text-center text-lg-start bg-white text-muted mt-5">
                 <div

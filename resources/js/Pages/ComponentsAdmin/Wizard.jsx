@@ -327,7 +327,6 @@ const Wizard = ({ empresa, states, countries, configuraciones }) => {
                                         <div className="input-group">
                                             <Form.Control
                                                 type="text"
-                                                // placeholder={empresa == {} ? "Ej: J-123456789" : empresa.rif}
                                                 name="rif"
                                                 value={rif}
                                                 isInvalid={!!errors.rif}

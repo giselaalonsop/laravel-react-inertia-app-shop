@@ -32,7 +32,7 @@ export default function ResetPassword({ token, email, configuracion }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Correo electronico" />
 
                     <TextInput
                         id="email"
@@ -48,7 +48,7 @@ export default function ResetPassword({ token, email, configuracion }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Contraseña" />
 
                     <TextInput
                         id="password"
@@ -67,7 +67,7 @@ export default function ResetPassword({ token, email, configuracion }) {
                 <div className="mt-4">
                     <InputLabel
                         htmlFor="password_confirmation"
-                        value="Confirm Password"
+                        value="Confirmar contraseña"
                     />
 
                     <TextInput
@@ -96,7 +96,7 @@ export default function ResetPassword({ token, email, configuracion }) {
                             borderColor: configuracion.color4,
                         }}
                     >
-                        Reset Password
+                        Reestablecer contraseña
                     </PrimaryButton>
                 </div>
             </form>

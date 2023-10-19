@@ -19,11 +19,25 @@ export default function Login({ status, canResetPassword, configuracion }) {
             reset("password");
         };
     }, []);
+    const validateEmail = (email) => {
+        const isValid = /\S+@\S+\.\S+/.test(email);
+        return isValid ? "" : "El correo electrónico no es válido";
+    };
 
+    const validatePassword = (password) => {
+        return password.length >= 8
+            ? ""
+            : "La contraseña debe tener al menos 8 caracteres";
+    };
     const submit = (e) => {
         e.preventDefault();
-
         post(route("login"));
+        const emailError = validateEmail(email);
+        const passwordError = validatePassword(password);
+
+        if (emailError || passwordError) {
+            setErrors({ email: emailError, password: passwordError });
+        }
     };
 
     return (
@@ -54,7 +68,7 @@ export default function Login({ status, canResetPassword, configuracion }) {
                 )}
                 <form onSubmit={submit}>
                     <div>
-                        <InputLabel htmlFor="email" value="Email" />
+                        <InputLabel htmlFor="email" value="Correo" />
 
                         <TextInput
                             id="email"
@@ -72,7 +86,7 @@ export default function Login({ status, canResetPassword, configuracion }) {
                     </div>
 
                     <div className="mt-4">
-                        <InputLabel htmlFor="password" value="Password" />
+                        <InputLabel htmlFor="password" value="Contraseña" />
 
                         <TextInput
                             id="password"
@@ -103,7 +117,7 @@ export default function Login({ status, canResetPassword, configuracion }) {
                                 }
                             />
                             <span className="ml-2 text-sm text-gray-600">
-                                Remember me
+                                Recuerdame
                             </span>
                         </label>
                     </div>
@@ -115,7 +129,7 @@ export default function Login({ status, canResetPassword, configuracion }) {
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 style={{ color: configuracion.color2 }}
                             >
-                                Forgot your password?
+                                ¿Olvidaste tu contraseña?
                             </Link>
                         )}
 
@@ -127,7 +141,7 @@ export default function Login({ status, canResetPassword, configuracion }) {
                                 borderColor: configuracion.color4,
                             }}
                         >
-                            Log in
+                            Ingresar
                         </PrimaryButton>
                     </div>
                 </form>

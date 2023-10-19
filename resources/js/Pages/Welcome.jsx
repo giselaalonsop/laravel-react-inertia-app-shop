@@ -1737,6 +1737,7 @@ export default function Welcome({
                     <h6 className="text-uppercase fw-bold text-center ">
                         Como llegar
                     </h6>
+                    {/*mapa google maps*/}
                     <iframe
                         className=" mx-auto w-full "
                         name="mapa"
