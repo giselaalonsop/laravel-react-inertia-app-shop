@@ -9,6 +9,7 @@ import Wizard from "./ComponentsAdmin/Wizard";
 import ConfiguracionForm from "./ComponentsAdmin/ConfiguracionForm";
 import Redes from "./ComponentsAdmin/Redes";
 import PostForm from "./ComponentsAdmin/PostForm";
+import ProductosForm from "./ComponentsAdmin/ProductosForm";
 
 export default function Admin({
     empresa,
@@ -20,6 +21,7 @@ export default function Admin({
     configuraciones,
     redes,
     links,
+    productos,
 }) {
     {
         /* 
@@ -88,6 +90,15 @@ export default function Admin({
                                         configuraciones={configuraciones}
                                         empresa={empresa}
                                         links={links}
+                                    />
+                                </div>
+                            );
+                        case "productos":
+                            return (
+                                <div>
+                                    <ProductosForm
+                                        configuraciones={configuraciones}
+                                        productos={productos}
                                     />
                                 </div>
                             );

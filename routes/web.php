@@ -10,6 +10,8 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\RedesController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductosController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,7 +44,10 @@ Route::put('/posts.up', [PostController::class, 'update']);
 Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 Route::post('/dashboard', [EmpresaController::class, 'store']);
 Route::post('/configuracion', [ConfiguracionController::class, 'store']);
-
-
+Route::get('Productos', [ProductosController::class, 'create'])->name('Productos');
+Route::post('/productos/save', [ProductosController::class, 'store']);
+Route::put('/productos/{id}', [ProductosController::class, 'update']);
+Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
+Route::get('/ProductDetail/{id}', [ProductosController::class, 'show'])->name('/ProductDetail');
 
 require __DIR__ . '/auth.php';

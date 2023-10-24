@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaTools } from "react-icons/fa";
+import { MDBIcon } from "mdb-react-ui-kit";
 
 const Sidebar = ({ auth, cambiarHome, empresa, configuraciones }) => {
     return (
@@ -217,6 +218,28 @@ const Sidebar = ({ auth, cambiarHome, empresa, configuraciones }) => {
                                     >
                                         <i className="nav-icon  fa-solid fa-file" />
                                         <p>Posts</p>
+                                    </a>
+                                </div>
+                            </li>
+                            <li
+                                onClick={() => cambiarHome("productos")}
+                                className="nav-item"
+                            >
+                                <div
+                                    onMouseEnter={(e) => {
+                                        e.target.style.color =
+                                            configuraciones.color2;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.color = "black";
+                                    }}
+                                >
+                                    <a
+                                        href="#"
+                                        className="nav-link  bg-transparent"
+                                    >
+                                        <i className="nav-icon  fa-solid fa-cart-shopping" />
+                                        <p>Productos</p>
                                     </a>
                                 </div>
                             </li>

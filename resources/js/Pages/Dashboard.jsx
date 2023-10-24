@@ -100,6 +100,7 @@ export default function Dashboard({
     configuraciones,
     redes,
     links,
+    productos,
 }) {
     // useEffect(() => localStorage.setItem("empresa", JSON.stringify(empresa)),[empresa]);
     document.title = empresa.nombre;
@@ -138,6 +139,7 @@ export default function Dashboard({
                             configuraciones={configuraciones}
                             redes={redes}
                             links={links}
+                            productos={productos}
                         />
                     </>
                 ) : (

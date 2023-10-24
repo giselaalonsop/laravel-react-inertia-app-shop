@@ -239,7 +239,7 @@ export default function Welcome({
                                         style={{
                                             color: configuracion.color3,
                                         }}
-                                        href="#"
+                                        href={route("Productos")}
                                         className="nav-link px-2 link-body-emphasis text-gray-900 hover:text-gray-900 dark:text-gray-400 dark:hover:text-red focus:outline focus:outline-2 focus:rounded-sm "
                                     >
                                         Productos
