@@ -7,10 +7,10 @@ import { faYoutube, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { MDBIcon } from "mdb-react-ui-kit";
 
 export default function ({ configuraciones, productos }) {
-    const [nombre, setNombre] = useState("producto");
+    const [nombre, setNombre] = useState("Nombre del producto");
     const [precio, setPrecio] = useState("100");
     const [tabla, setTabla] = useState(false);
-    const [descripcion, setDescripcion] = useState("Nuevo");
+    const [descripcion, setDescripcion] = useState("Descripcion del producto");
     const [multimedia, setMultimedia] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
     const [productInEdit, setProductInEdit] = useState(null);
@@ -144,37 +144,20 @@ export default function ({ configuraciones, productos }) {
             }
 
             formData.append("multimedia", multimedia);
-            if (isEdit) {
-                const response = await axios.post(`/productos/edit`, formData);
-                if (response.status === 200) {
-                    Swal.fire(
-                        "Producto actualizado",
-                        "El producto se ha actualizado correctamente",
-                        "success"
-                    );
-                    // Realiza cualquier otra acción necesaria, como redirigir o actualizar la lista de productos
-                } else {
-                    Swal.fire(
-                        "Error al actualizar",
-                        "El producto no se ha actualizado correctamente",
-                        "error"
-                    );
-                }
+
+            const response = await axios.post("/productos/save", formData);
+            if (response.status === 201) {
+                Swal.fire(
+                    "Producto registrado",
+                    "El producto se ha registrado correctamente",
+                    "success"
+                );
             } else {
-                const response = await axios.post("/productos/save", formData);
-                if (response.status === 201) {
-                    Swal.fire(
-                        "Producto registrado",
-                        "El producto se ha registrado correctamente",
-                        "success"
-                    );
-                } else {
-                    Swal.fire(
-                        "Error al registrar",
-                        "El producto no se ha registrado correctamente",
-                        "error"
-                    );
-                }
+                Swal.fire(
+                    "Error al registrar",
+                    "El producto no se ha registrado correctamente",
+                    "error"
+                );
             }
         } catch (error) {
             console.log(error);
@@ -190,6 +173,7 @@ export default function ({ configuraciones, productos }) {
                 "success"
             );
         }
+        handleLogout();
     };
 
     const handleUpdateProducto = (producto) => {
@@ -200,9 +184,8 @@ export default function ({ configuraciones, productos }) {
         setSelectedImage1(producto.imagen1);
         setSelectedImage2(producto.imagen2);
         setSelectedImage3(producto.imagen3);
-        setIsEdit(true);
         setProductInEdit(producto.id);
-        setTabla(false);
+        handleChangeTabla();
     };
     const handleLinkChange = (e) => {
         setPlatform({
@@ -223,7 +206,9 @@ export default function ({ configuraciones, productos }) {
     useEffect(() => {
         nombreInputRef.current.focus();
     }, []);
-
+    const handleLogout = () => {
+        window.location.href = "/dashboard";
+    };
     return (
         <div>
             <div className="content-wrapper">
@@ -375,7 +360,7 @@ export default function ({ configuraciones, productos }) {
                                                 )}
                                             </div>
                                             <Container className="py-4">
-                                                <Form>
+                                                <div>
                                                     <Row className="mb-3">
                                                         <Col className="mt-1">
                                                             <Form.Label>
@@ -612,7 +597,7 @@ export default function ({ configuraciones, productos }) {
                                                                     <div className="preview">
                                                                         <img
                                                                             src={URL.createObjectURL(
-                                                                                selectedImage1
+                                                                                selectedImage3
                                                                             )}
                                                                             alt="Imagen seleccionada"
                                                                             className="max-h-60 img-fluid"
@@ -649,7 +634,7 @@ export default function ({ configuraciones, productos }) {
                                                     <section className="container mt-4">
                                                         <Container>
                                                             <section>
-                                                                <Form>
+                                                                <div>
                                                                     <div>
                                                                         <div
                                                                             className={` row mb-3 align-items-center  rounded p-2
@@ -768,7 +753,7 @@ export default function ({ configuraciones, productos }) {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </Form>
+                                                                </div>
                                                             </section>
                                                         </Container>
                                                     </section>
@@ -857,7 +842,7 @@ export default function ({ configuraciones, productos }) {
                                                             </button>
                                                         </Col>
                                                     </Row>
-                                                </Form>
+                                                </div>
                                             </Container>
                                         </div>
                                     )}

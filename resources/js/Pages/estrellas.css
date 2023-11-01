@@ -1,3 +1,12 @@
 .infinite {
   animation-iteration-count: infinite;
 }
+
+.rotate-icon {
+  animation: spin 2s linear infinite; /* 2s de duración, animación lineal infinita */
+}
+
+@keyframes spin {
+  0% { transform: rotateY(0deg); } /* 0 grados de rotación al inicio */
+  100% { transform: rotateY(360deg); } /* 360 grados de rotación al final */
+}

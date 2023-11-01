@@ -48,6 +48,6 @@ Route::get('Productos', [ProductosController::class, 'create'])->name('Productos
 Route::post('/productos/save', [ProductosController::class, 'store']);
 Route::put('/productos/{id}', [ProductosController::class, 'update']);
 Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
-Route::get('/ProductDetail/{id}', [ProductosController::class, 'show'])->name('/ProductDetail');
+
 
 require __DIR__ . '/auth.php';

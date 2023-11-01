@@ -91,12 +91,6 @@ class ProductosController extends Controller
      */
     public function show($id)
     {
-        $producto = Productos::find($id);
-        $empresa = Empresa::first();
-        $configuracion = Configuracion::first();
-
-        // Aquí realiza las acciones para mostrar los detalles del producto, por ejemplo, cargar la vista 'productDetail' con los datos del producto
-        return Inertia::render('ProductDetail', ['producto' => $producto, 'empresa' => $empresa, 'configuracion' => $configuracion]);
     }
 
     /**
